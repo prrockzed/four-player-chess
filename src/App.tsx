@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.css';
+import Chessboard from './components/Chessboard/Chessboard';
 
 function App() {
   return (
-    <div className="App">
-      chess game
+    <div id="app">
+      <Chessboard />
     </div>
   );
 }
