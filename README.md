@@ -9,8 +9,20 @@ Now even four players can simultaneously play chess, either by one way or the ot
 <br>
 Will be fun to make and play this game(Inspiration taken from chess.com).<br>
 <br>
-To run this :<br>
-1. Download/clone the project(i.e., this repo).<br>
+To enjoy Four Player Chess :<br>
+1. Download/clone the project(i.e., this repo)
+``` 
+  git clone https://github.com/prrockzed/four-player-chess.git
+```
 2. Navigate to the project/repo folder in terminal.<br>
-3. Run the script : npm install
-4. Finally, run : npm run start
+``` 
+  cd four-player-chess
+```
+3. Run the following script to install dependencies : 
+``` 
+  npm install
+```
+4. Finally, run : 
+``` 
+  npm run start
+```
