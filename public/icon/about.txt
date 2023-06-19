@@ -1,5 +1,0 @@
-This logo was generated using the following font:
-
-- Font Title: IM Fell Double Pica SC
-- Font Source: http://fonts.gstatic.com/s/imfelldoublepicasc/v21/neIazDmuiMkFo6zj_sHpQ8teNbWlwBB_hXjJ4Y0Eeru2dGg.ttf
-- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL))
