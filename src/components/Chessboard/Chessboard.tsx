@@ -6,7 +6,7 @@ import Referee from '../../referee/Referee'
 const verticalAxis = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 const horizontalAxis = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 
-interface Piece {
+export interface Piece {
   image: string
   x: number
   y: number
@@ -35,7 +35,7 @@ const initialBoardState: Piece[] = []
 
 for (let p = 0; p < 2; p++) {
   const teamType_yr = p === 0 ? TeamType.YELLOW : TeamType.RED
-  const teamType_gb = p === 0 ? TeamType.GREEN : TeamType.RED
+  const teamType_gb = p === 0 ? TeamType.GREEN : TeamType.BLUE
   const type_yr = teamType_yr === TeamType.YELLOW ? 'y' : 'r' // For yellow and red types
   const type_gb = teamType_gb === TeamType.GREEN ? 'g' : 'b' // For green and blue types
   const y = p === 0 ? 13 : 0
@@ -337,7 +337,8 @@ export default function Chessboard() {
               x,
               y,
               p.type,
-              p.team
+              p.team,
+              value
             )
             if (validMove) {
               p.x = x
