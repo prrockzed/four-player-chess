@@ -14,71 +14,64 @@ interface Piece {
 // Pieces
 const initialBoardState: Piece[] = []
 
-// Red and Yellow Main Pieces
 for (let p = 0; p < 2; p++) {
-  const type = p === 0 ? 'y' : 'r'
+  const type_yr = p === 0 ? 'y' : 'r' // For yellow and red types
+  const type_gb = p === 0 ? 'g' : 'b' // For green and blue types
   const y = p === 0 ? 13 : 0
-
-  // Rooks
-  initialBoardState.push({ image: `assets/images/${type}R.png`, x: 3, y })
-  initialBoardState.push({ image: `assets/images/${type}R.png`, x: 10, y })
-
-  // Knights
-  initialBoardState.push({ image: `assets/images/${type}N.png`, x: 4, y })
-  initialBoardState.push({ image: `assets/images/${type}N.png`, x: 9, y })
-
-  // Bishops
-  initialBoardState.push({ image: `assets/images/${type}B.png`, x: 5, y })
-  initialBoardState.push({ image: `assets/images/${type}B.png`, x: 8, y })
-
-  // Kings and Queens
-  if (type === 'y') {
-    initialBoardState.push({ image: `assets/images/${type}Q.png`, x: 7, y })
-    initialBoardState.push({ image: `assets/images/${type}K.png`, x: 6, y })
-  } else {
-    initialBoardState.push({ image: `assets/images/${type}Q.png`, x: 6, y })
-    initialBoardState.push({ image: `assets/images/${type}K.png`, x: 7, y })
-  }
-}
-
-// Blue and Green Main Pieces
-for (let p = 0; p < 2; p++) {
-  const type = p === 0 ? 'g' : 'b'
   const x = p === 0 ? 13 : 0
 
+  // Red and Yellow Main Pieces
   // Rooks
-  initialBoardState.push({ image: `assets/images/${type}R.png`, x, y: 3 })
-  initialBoardState.push({ image: `assets/images/${type}R.png`, x, y: 10 })
+  initialBoardState.push({ image: `assets/images/${type_yr}R.png`, x: 3, y })
+  initialBoardState.push({ image: `assets/images/${type_yr}R.png`, x: 10, y })
 
   // Knights
-  initialBoardState.push({ image: `assets/images/${type}N.png`, x, y: 4 })
-  initialBoardState.push({ image: `assets/images/${type}N.png`, x, y: 9 })
+  initialBoardState.push({ image: `assets/images/${type_yr}N.png`, x: 4, y })
+  initialBoardState.push({ image: `assets/images/${type_yr}N.png`, x: 9, y })
 
   // Bishops
-  initialBoardState.push({ image: `assets/images/${type}B.png`, x, y: 5 })
-  initialBoardState.push({ image: `assets/images/${type}B.png`, x, y: 8 })
+  initialBoardState.push({ image: `assets/images/${type_yr}B.png`, x: 5, y })
+  initialBoardState.push({ image: `assets/images/${type_yr}B.png`, x: 8, y })
 
   // Kings and Queens
-  if (type === 'g') {
-    initialBoardState.push({ image: `assets/images/${type}Q.png`, x, y: 7 })
-    initialBoardState.push({ image: `assets/images/${type}K.png`, x, y: 6 })
+  if (type_yr === 'y') {
+    initialBoardState.push({ image: `assets/images/${type_yr}Q.png`, x: 7, y })
+    initialBoardState.push({ image: `assets/images/${type_yr}K.png`, x: 6, y })
   } else {
-    initialBoardState.push({ image: `assets/images/${type}Q.png`, x, y: 6 })
-    initialBoardState.push({ image: `assets/images/${type}K.png`, x, y: 7 })
+    initialBoardState.push({ image: `assets/images/${type_yr}Q.png`, x: 6, y })
+    initialBoardState.push({ image: `assets/images/${type_yr}K.png`, x: 7, y })
+  }
+
+  // Blue and Green Main Pieces
+  // Rooks
+  initialBoardState.push({ image: `assets/images/${type_gb}R.png`, x, y: 3 })
+  initialBoardState.push({ image: `assets/images/${type_gb}R.png`, x, y: 10 })
+
+  // Knights
+  initialBoardState.push({ image: `assets/images/${type_gb}N.png`, x, y: 4 })
+  initialBoardState.push({ image: `assets/images/${type_gb}N.png`, x, y: 9 })
+
+  // Bishops
+  initialBoardState.push({ image: `assets/images/${type_gb}B.png`, x, y: 5 })
+  initialBoardState.push({ image: `assets/images/${type_gb}B.png`, x, y: 8 })
+
+  // Kings and Queens
+  if (type_gb === 'g') {
+    initialBoardState.push({ image: `assets/images/${type_gb}Q.png`, x, y: 7 })
+    initialBoardState.push({ image: `assets/images/${type_gb}K.png`, x, y: 6 })
+  } else {
+    initialBoardState.push({ image: `assets/images/${type_gb}Q.png`, x, y: 6 })
+    initialBoardState.push({ image: `assets/images/${type_gb}K.png`, x, y: 7 })
   }
 }
 
 // Pawns
 for (let i = 3; i < 11; i++) {
   initialBoardState.push({ image: 'assets/images/rP.png', x: i, y: 1 })
-}
-for (let i = 3; i < 11; i++) {
   initialBoardState.push({ image: 'assets/images/yP.png', x: i, y: 12 })
 }
 for (let j = 3; j < 11; j++) {
   initialBoardState.push({ image: 'assets/images/bP.png', x: 1, y: j })
-}
-for (let j = 3; j < 11; j++) {
   initialBoardState.push({ image: 'assets/images/gP.png', x: 12, y: j })
 }
 
