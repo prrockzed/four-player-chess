@@ -14,6 +14,20 @@ export default class Referee {
     console.log(`Current location: (${x},${y})`)
     console.log(`Piece type: ${type}`)
     console.log(`Team: ${team}`)
-    return true
+
+    if (type === PieceType.PAWN) {
+      if (team === TeamType.RED) {
+        if (py === 1) {
+          if (px === x && (y - py === 1 || y - py === 2)) {
+            return true
+          }
+        } else {
+          if (px === x && y - py === 1) {
+            return true
+          }
+        }
+      }
+    }
+    return false
   }
 }

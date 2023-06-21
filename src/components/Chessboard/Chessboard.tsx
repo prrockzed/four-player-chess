@@ -331,9 +331,22 @@ export default function Chessboard() {
       setPieces((value) => {
         const pieces = value.map((p) => {
           if (p.x === gridX && p.y === gridY) {
-            referee.isValidMove(gridX, gridY, x, y, p.type, p.team)
-            p.x = x
-            p.y = y
+            const validMove = referee.isValidMove(
+              gridX,
+              gridY,
+              x,
+              y,
+              p.type,
+              p.team
+            )
+            if (validMove) {
+              p.x = x
+              p.y = y
+            } else {
+              activePiece.style.position = 'relative'
+              activePiece.style.removeProperty('top')
+              activePiece.style.removeProperty('left')
+            }
           }
           return p
         })
