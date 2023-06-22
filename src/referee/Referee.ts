@@ -28,6 +28,39 @@ export default class Referee {
     }
   }
 
+  isEnPassantMove(
+    px: number,
+    py: number,
+    x: number,
+    y: number,
+    type: PieceType,
+    team: TeamType,
+    boardState: Piece[]
+  ) {
+    const pawnDirection = team === TeamType.RED ? 1 : -1
+
+    if (type === PieceType.PAWN) {
+      if ((x - px === -1 || x - px === 1) && y - py === pawnDirection) {
+        const piece = boardState.find(
+          (p) => p.x === x && p.y === y - pawnDirection && p.enPassant
+        )
+        if (piece) {
+          return true
+        }
+      }
+    }
+
+    // if the attacking piece is pawn DONE
+    // upper left/upper right OR bottom left/bottom right DONE
+    // if a piece is under/above the attacked tile DONE
+    // if the attacked piece has made an en passant move in the previous turn DONE
+
+    // Put the attacking piece in correct position
+    // Remove the en passanted piece
+
+    return false
+  }
+
   isValidMove(
     px: number,
     py: number,
