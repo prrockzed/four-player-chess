@@ -3,18 +3,19 @@ import Tile from '../Tile/Tile'
 import './Chessboard.css'
 import Referee from '../../referee/Referee'
 import {
-  verticalAxis,
-  horizontalAxis,
+  VERTICAL_AXIS,
+  HORIZONTAL_AXIS,
+  GRID_SIZE,
   Piece,
   PieceType,
   TeamType,
   initialBoardState,
+  Position,
 } from '../../Constants'
 
 export default function Chessboard() {
   const [activePiece, setActivePiece] = useState<HTMLElement | null>(null)
-  const [gridX, setGridX] = useState(0)
-  const [gridY, setGridY] = useState(0)
+  const [grabPosition, setGrabPosition] = useState<Position>({ x: -1, y: -1 })
   const [pieces, setPieces] = useState<Piece[]>(initialBoardState)
   const chessboardRef = useRef<HTMLDivElement>(null)
   const referee = new Referee()
@@ -22,13 +23,19 @@ export default function Chessboard() {
   function grabPiece(e: React.MouseEvent) {
     const chessboard = chessboardRef.current
     const element = e.target as HTMLElement
+
     if (element.classList.contains('chess-piece') && chessboard) {
-      setGridX(Math.floor((e.clientX - chessboard.offsetLeft) / 50))
-      setGridY(
-        Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 700) / 50))
+      const grabX = Math.floor((e.clientX - chessboard.offsetLeft) / GRID_SIZE)
+      const grabY = Math.abs(
+        Math.abs(
+          Math.ceil((e.clientY - chessboard.offsetTop - 700) / GRID_SIZE)
+        )
       )
-      const x = e.clientX - 25
-      const y = e.clientY - 25
+      setGrabPosition({ x: grabX, y: grabY })
+
+      const x = e.clientX - GRID_SIZE / 2
+      const y = e.clientY - GRID_SIZE / 2
+
       element.style.position = 'absolute'
       element.style.left = `${x}px`
       element.style.top = `${y}px`
@@ -57,8 +64,8 @@ export default function Chessboard() {
         (chessboard.clientHeight / 14) * 3 +
         chessboard.clientHeight -
         46
-      const x = e.clientX - 25
-      const y = e.clientY - 25
+      const x = e.clientX - GRID_SIZE / 2
+      const y = e.clientY - GRID_SIZE / 2
       activePiece.style.position = 'absolute'
 
       // Restricting the x position
@@ -93,18 +100,21 @@ export default function Chessboard() {
   function dropPiece(e: React.MouseEvent) {
     const chessboard = chessboardRef.current
     if (activePiece && chessboard) {
-      const x = Math.floor((e.clientX - chessboard.offsetLeft) / 50)
+      const x = Math.floor((e.clientX - chessboard.offsetLeft) / GRID_SIZE)
       const y = Math.abs(
-        Math.ceil((e.clientY - chessboard.offsetTop - 700) / 50)
+        Math.ceil((e.clientY - chessboard.offsetTop - 700) / GRID_SIZE)
       )
 
-      const currentPiece = pieces.find((p) => p.x === gridX && p.y === gridY)
+      const currentPiece = pieces.find(
+        (p) =>
+          p.position.x === grabPosition.x && p.position.y === grabPosition.y
+      )
       // const attackedPiece = pieces.find((p) => p.x === x && p.y === y)
 
       if (currentPiece) {
         const validMove = referee.isValidMove(
-          gridX,
-          gridY,
+          grabPosition.x,
+          grabPosition.y,
           x,
           y,
           currentPiece.type,
@@ -112,21 +122,18 @@ export default function Chessboard() {
           pieces
         )
 
-        const pawnDirection =
-          currentPiece.team === TeamType.RED ||
-          currentPiece.team === TeamType.BLUE
-            ? 1
-            : -1
-
         if (validMove) {
           // Updating the position of the piece
           // If a piece is attacked then remove it
           const updatedPieces = pieces.reduce((results, piece) => {
-            if (piece.x === gridX && piece.y === gridY) {
-              piece.x = x
-              piece.y = y
+            if (
+              piece.position.x === grabPosition.x &&
+              piece.position.y === grabPosition.y
+            ) {
+              piece.position.x = x
+              piece.position.y = y
               results.push(piece)
-            } else if (!(piece.x === x && piece.y === y)) {
+            } else if (!(piece.position.x === x && piece.position.y === y)) {
               results.push(piece)
             }
             return results
@@ -146,17 +153,12 @@ export default function Chessboard() {
 
   let board = []
 
-  for (let j = verticalAxis.length - 1; j >= 0; j--) {
-    for (let i = 0; i < horizontalAxis.length; i++) {
+  for (let j = VERTICAL_AXIS.length - 1; j >= 0; j--) {
+    for (let i = 0; i < HORIZONTAL_AXIS.length; i++) {
       const num_i = i
       const num_j = j
-      let image = undefined
-
-      pieces.forEach((p) => {
-        if (p.x === i && p.y === j) {
-          image = p.image
-        }
-      })
+      const piece = pieces.find((p) => p.position.x === i && p.position.y === j)
+      let image = piece ? piece.image : undefined
 
       // Made chessboard with all the 'useful' squares
       board.push(
