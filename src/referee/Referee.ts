@@ -157,7 +157,10 @@ export default class Referee {
           }
         }
       }
-    } else if (type === PieceType.KNIGHT) {
+    }
+
+    // KNIGHT Movement
+    else if (type === PieceType.KNIGHT) {
       // Movement and Attack Logic for Knight
       for (let i = -1; i < 2; i += 2) {
         for (let j = -1; j < 2; j += 2) {
@@ -192,54 +195,94 @@ export default class Referee {
           }
         }
       }
-    } else if (type === PieceType.BISHOP) {
+    }
+
+    // BISHOP Movement
+    else if (type === PieceType.BISHOP) {
       // Movement and Attack Logic for Bishop
 
-      // Top right movement
       for (let i = 1; i < 11; i++) {
+        // Top right movement
+        if (
+          desiredPosition.x > initialPosition.x &&
+          desiredPosition.y > initialPosition.y
+        ) {
+          let passedPosition: Position = {
+            x: initialPosition.x + i,
+            y: initialPosition.y + i,
+          }
+          if (this.tileIsOccupied(passedPosition, boardState)) {
+            break
+          }
+        }
         if (
           desiredPosition.x - initialPosition.x === i &&
           desiredPosition.y - initialPosition.y === i
         ) {
-          console.log(`Moving ${i} squares top right`)
-          break
+          return true
         }
-      }
 
-      // Top left movement
-      for (let i = 1; i < 11; i++) {
+        // Top left movement
+        if (
+          desiredPosition.x < initialPosition.x &&
+          desiredPosition.y > initialPosition.y
+        ) {
+          let passedPosition: Position = {
+            x: initialPosition.x - i,
+            y: initialPosition.y + i,
+          }
+          if (this.tileIsOccupied(passedPosition, boardState)) {
+            break
+          }
+        }
         if (
           desiredPosition.x - initialPosition.x === -i &&
           desiredPosition.y - initialPosition.y === i
         ) {
-          console.log(`Moving ${i} squares top left`)
-          break
+          return true
+        }
+
+        // Bottom right movement
+        if (
+          desiredPosition.x > initialPosition.x &&
+          desiredPosition.y < initialPosition.y
+        ) {
+          let passedPosition: Position = {
+            x: initialPosition.x + i,
+            y: initialPosition.y - i,
+          }
+          if (this.tileIsOccupied(passedPosition, boardState)) {
+            break
+          }
+        }
+        if (
+          desiredPosition.x - initialPosition.x === i &&
+          desiredPosition.y - initialPosition.y === -i
+        ) {
+          return true
+        }
+
+        // Bottom left movement
+        if (
+          desiredPosition.x < initialPosition.x &&
+          desiredPosition.y < initialPosition.y
+        ) {
+          let passedPosition: Position = {
+            x: initialPosition.x - i,
+            y: initialPosition.y - i,
+          }
+          if (this.tileIsOccupied(passedPosition, boardState)) {
+            break
+          }
+        }
+        if (
+          desiredPosition.x - initialPosition.x === -i &&
+          desiredPosition.y - initialPosition.y === -i
+        ) {
+          return true
         }
       }
     }
-
-    // Bottom right movement
-    for (let i = 1; i < 11; i++) {
-      if (
-        desiredPosition.x - initialPosition.x === i &&
-        desiredPosition.y - initialPosition.y === -i
-      ) {
-        console.log(`Moving ${i} squares down right`)
-        break
-      }
-    }
-
-    // Bottom left movement
-    for (let i = 1; i < 11; i++) {
-      if (
-        desiredPosition.x - initialPosition.x === -i &&
-        desiredPosition.y - initialPosition.y === -i
-      ) {
-        console.log(`Moving ${i} squares down left`)
-        break
-      }
-    }
-
     return false
   }
 }
