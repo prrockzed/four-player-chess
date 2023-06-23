@@ -1,10 +1,25 @@
-import { Piece, PieceType, TeamType, Position } from '../Constants'
+import {
+  Piece,
+  PieceType,
+  TeamType,
+  Position,
+  samePosition,
+} from '../Constants'
 
 export default class Referee {
-  tileIsOccupied(x: number, y: number, boardState: Piece[]): boolean {
-    const piece = boardState.find(
-      (p) => p.position.x === x && p.position.y === y
+  tileIsEmptyOrOccupiedByOpponent(
+    position: Position,
+    boardState: Piece[],
+    team: TeamType
+  ) {
+    return (
+      !this.tileIsOccupied(position, boardState) ||
+      this.tileIsOccupiedByOpponent(position, boardState, team)
     )
+  }
+
+  tileIsOccupied(position: Position, boardState: Piece[]): boolean {
+    const piece = boardState.find((p) => samePosition(p.position, position))
 
     if (piece) {
       return true
@@ -14,13 +29,12 @@ export default class Referee {
   }
 
   tileIsOccupiedByOpponent(
-    x: number,
-    y: number,
+    position: Position,
     boardState: Piece[],
     team: TeamType
   ): boolean {
     const piece = boardState.find(
-      (p) => p.position.x === x && p.position.y === y && p.team !== team
+      (p) => samePosition(p.position, position) && p.team !== team
     )
 
     if (piece) {
@@ -52,14 +66,9 @@ export default class Referee {
           desiredPosition.y - initialPosition.y === 2 * pawnDirection
         ) {
           if (
+            !this.tileIsOccupied(desiredPosition, boardState) &&
             !this.tileIsOccupied(
-              desiredPosition.x,
-              desiredPosition.y,
-              boardState
-            ) &&
-            !this.tileIsOccupied(
-              desiredPosition.x,
-              desiredPosition.y - pawnDirection,
+              { x: desiredPosition.x, y: desiredPosition.y - pawnDirection },
               boardState
             )
           ) {
@@ -69,13 +78,7 @@ export default class Referee {
           initialPosition.x === desiredPosition.x &&
           desiredPosition.y - initialPosition.y === pawnDirection
         ) {
-          if (
-            !this.tileIsOccupied(
-              desiredPosition.x,
-              desiredPosition.y,
-              boardState
-            )
-          ) {
+          if (!this.tileIsOccupied(desiredPosition, boardState)) {
             return true
           }
         }
@@ -86,12 +89,7 @@ export default class Referee {
         ) {
           // Attack in Upper or Bottom Left Corner
           if (
-            this.tileIsOccupiedByOpponent(
-              desiredPosition.x,
-              desiredPosition.y,
-              boardState,
-              team
-            )
+            this.tileIsOccupiedByOpponent(desiredPosition, boardState, team)
           ) {
             return true
           }
@@ -101,12 +99,7 @@ export default class Referee {
         ) {
           // Attack in Upper or Bottom Right Corner
           if (
-            this.tileIsOccupiedByOpponent(
-              desiredPosition.x,
-              desiredPosition.y,
-              boardState,
-              team
-            )
+            this.tileIsOccupiedByOpponent(desiredPosition, boardState, team)
           ) {
             return true
           }
@@ -121,14 +114,9 @@ export default class Referee {
           desiredPosition.x - initialPosition.x === 2 * pawnDirection
         ) {
           if (
+            !this.tileIsOccupied(desiredPosition, boardState) &&
             !this.tileIsOccupied(
-              desiredPosition.x,
-              desiredPosition.y,
-              boardState
-            ) &&
-            !this.tileIsOccupied(
-              desiredPosition.x - pawnDirection,
-              desiredPosition.y,
+              { x: desiredPosition.x - pawnDirection, y: desiredPosition.y },
               boardState
             )
           ) {
@@ -138,13 +126,7 @@ export default class Referee {
           initialPosition.y === desiredPosition.y &&
           desiredPosition.x - initialPosition.x === pawnDirection
         ) {
-          if (
-            !this.tileIsOccupied(
-              desiredPosition.x,
-              desiredPosition.y,
-              boardState
-            )
-          ) {
+          if (!this.tileIsOccupied(desiredPosition, boardState)) {
             return true
           }
         }
@@ -155,12 +137,7 @@ export default class Referee {
         ) {
           // Attack in Right or Left Bottom Corner
           if (
-            this.tileIsOccupiedByOpponent(
-              desiredPosition.x,
-              desiredPosition.y,
-              boardState,
-              team
-            )
+            this.tileIsOccupiedByOpponent(desiredPosition, boardState, team)
           ) {
             return true
           }
@@ -170,14 +147,43 @@ export default class Referee {
         ) {
           // Attack in Right or Left Upper Corner
           if (
-            this.tileIsOccupiedByOpponent(
-              desiredPosition.x,
-              desiredPosition.y,
-              boardState,
-              team
-            )
+            this.tileIsOccupiedByOpponent(desiredPosition, boardState, team)
           ) {
             return true
+          }
+        }
+      }
+    } else if (type === PieceType.KNIGHT) {
+      for (let i = -1; i < 2; i += 2) {
+        for (let j = -1; j < 2; j += 2) {
+          // Top and Bottom Side Movement
+          if (desiredPosition.y - initialPosition.y === 2 * i) {
+            if (desiredPosition.x - initialPosition.x === j) {
+              if (
+                this.tileIsEmptyOrOccupiedByOpponent(
+                  desiredPosition,
+                  boardState,
+                  team
+                )
+              ) {
+                return true
+              }
+            }
+          }
+
+          // Right and Left Side Movement
+          if (desiredPosition.x - initialPosition.x === 2 * i) {
+            if (desiredPosition.y - initialPosition.y === j) {
+              if (
+                this.tileIsEmptyOrOccupiedByOpponent(
+                  desiredPosition,
+                  boardState,
+                  team
+                )
+              ) {
+                return true
+              }
+            }
           }
         }
       }
