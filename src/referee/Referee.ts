@@ -1,4 +1,4 @@
-import { Piece, PieceType, TeamType } from '../Constants'
+import { Piece, PieceType, TeamType, Position } from '../Constants'
 
 export default class Referee {
   tileIsOccupied(x: number, y: number, boardState: Piece[]): boolean {
@@ -31,10 +31,8 @@ export default class Referee {
   }
 
   isValidMove(
-    px: number,
-    py: number,
-    x: number,
-    y: number,
+    initialPosition: Position,
+    desiredPosition: Position,
     type: PieceType,
     team: TeamType,
     boardState: Piece[]
@@ -47,30 +45,69 @@ export default class Referee {
 
       // Red and Yellow Pawn
       if (team === TeamType.RED || team === TeamType.YELLOW) {
-        if (px === x && py === specialRow && y - py === 2 * pawnDirection) {
-          // Movement Logic
+        // Movement Logic
+        if (
+          initialPosition.x === desiredPosition.x &&
+          initialPosition.y === specialRow &&
+          desiredPosition.y - initialPosition.y === 2 * pawnDirection
+        ) {
           if (
-            !this.tileIsOccupied(x, y, boardState) &&
-            !this.tileIsOccupied(x, y - pawnDirection, boardState)
+            !this.tileIsOccupied(
+              desiredPosition.x,
+              desiredPosition.y,
+              boardState
+            ) &&
+            !this.tileIsOccupied(
+              desiredPosition.x,
+              desiredPosition.y - pawnDirection,
+              boardState
+            )
           ) {
             return true
           }
-        } else if (px === x && y - py === pawnDirection) {
-          if (!this.tileIsOccupied(x, y, boardState)) {
+        } else if (
+          initialPosition.x === desiredPosition.x &&
+          desiredPosition.y - initialPosition.y === pawnDirection
+        ) {
+          if (
+            !this.tileIsOccupied(
+              desiredPosition.x,
+              desiredPosition.y,
+              boardState
+            )
+          ) {
             return true
           }
         }
         // Attack Logic
-        else if (x - px === -1 && y - py === pawnDirection) {
+        else if (
+          desiredPosition.x - initialPosition.x === -1 &&
+          desiredPosition.y - initialPosition.y === pawnDirection
+        ) {
           // Attack in Upper or Bottom Left Corner
-          // console.log('upper/bottom left')
-          if (this.tileIsOccupiedByOpponent(x, y, boardState, team)) {
+          if (
+            this.tileIsOccupiedByOpponent(
+              desiredPosition.x,
+              desiredPosition.y,
+              boardState,
+              team
+            )
+          ) {
             return true
           }
-        } else if (x - px === 1 && y - py === pawnDirection) {
+        } else if (
+          desiredPosition.x - initialPosition.x === 1 &&
+          desiredPosition.y - initialPosition.y === pawnDirection
+        ) {
           // Attack in Upper or Bottom Right Corner
-          // console.log('upper/bottom right')
-          if (this.tileIsOccupiedByOpponent(x, y, boardState, team)) {
+          if (
+            this.tileIsOccupiedByOpponent(
+              desiredPosition.x,
+              desiredPosition.y,
+              boardState,
+              team
+            )
+          ) {
             return true
           }
         }
@@ -78,29 +115,68 @@ export default class Referee {
       // Green and Blue Pawn
       else {
         // Movement Logic
-        if (py === y && px === specialRow && x - px === 2 * pawnDirection) {
+        if (
+          initialPosition.y === desiredPosition.y &&
+          initialPosition.x === specialRow &&
+          desiredPosition.x - initialPosition.x === 2 * pawnDirection
+        ) {
           if (
-            !this.tileIsOccupied(x, y, boardState) &&
-            !this.tileIsOccupied(x - pawnDirection, y, boardState)
+            !this.tileIsOccupied(
+              desiredPosition.x,
+              desiredPosition.y,
+              boardState
+            ) &&
+            !this.tileIsOccupied(
+              desiredPosition.x - pawnDirection,
+              desiredPosition.y,
+              boardState
+            )
           ) {
             return true
           }
-        } else if (py === y && x - px === pawnDirection) {
-          if (!this.tileIsOccupied(x, y, boardState)) {
+        } else if (
+          initialPosition.y === desiredPosition.y &&
+          desiredPosition.x - initialPosition.x === pawnDirection
+        ) {
+          if (
+            !this.tileIsOccupied(
+              desiredPosition.x,
+              desiredPosition.y,
+              boardState
+            )
+          ) {
             return true
           }
         }
         // Attack Logic
-        else if (y - py === -1 && x - px === pawnDirection) {
+        else if (
+          desiredPosition.y - initialPosition.y === -1 &&
+          desiredPosition.x - initialPosition.x === pawnDirection
+        ) {
           // Attack in Right or Left Bottom Corner
-          // console.log('right/left bottom')
-          if (this.tileIsOccupiedByOpponent(x, y, boardState, team)) {
+          if (
+            this.tileIsOccupiedByOpponent(
+              desiredPosition.x,
+              desiredPosition.y,
+              boardState,
+              team
+            )
+          ) {
             return true
           }
-        } else if (y - py === 1 && x - px === pawnDirection) {
+        } else if (
+          desiredPosition.y - initialPosition.y === 1 &&
+          desiredPosition.x - initialPosition.x === pawnDirection
+        ) {
           // Attack in Right or Left Upper Corner
-          // console.log('right/left upper')
-          if (this.tileIsOccupiedByOpponent(x, y, boardState, team)) {
+          if (
+            this.tileIsOccupiedByOpponent(
+              desiredPosition.x,
+              desiredPosition.y,
+              boardState,
+              team
+            )
+          ) {
             return true
           }
         }

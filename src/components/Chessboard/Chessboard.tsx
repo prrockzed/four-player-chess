@@ -11,6 +11,7 @@ import {
   TeamType,
   initialBoardState,
   Position,
+  samePosition,
 } from '../../Constants'
 
 export default function Chessboard() {
@@ -105,18 +106,14 @@ export default function Chessboard() {
         Math.ceil((e.clientY - chessboard.offsetTop - 700) / GRID_SIZE)
       )
 
-      const currentPiece = pieces.find(
-        (p) =>
-          p.position.x === grabPosition.x && p.position.y === grabPosition.y
+      const currentPiece = pieces.find((p) =>
+        samePosition(p.position, grabPosition)
       )
-      // const attackedPiece = pieces.find((p) => p.x === x && p.y === y)
 
       if (currentPiece) {
         const validMove = referee.isValidMove(
-          grabPosition.x,
-          grabPosition.y,
-          x,
-          y,
+          grabPosition,
+          { x, y },
           currentPiece.type,
           currentPiece.team,
           pieces
@@ -133,7 +130,7 @@ export default function Chessboard() {
               piece.position.x = x
               piece.position.y = y
               results.push(piece)
-            } else if (!(piece.position.x === x && piece.position.y === y)) {
+            } else if (!samePosition(piece.position, { x, y })) {
               results.push(piece)
             }
             return results
@@ -157,7 +154,7 @@ export default function Chessboard() {
     for (let i = 0; i < HORIZONTAL_AXIS.length; i++) {
       const num_i = i
       const num_j = j
-      const piece = pieces.find((p) => p.position.x === i && p.position.y === j)
+      const piece = pieces.find((p) => samePosition(p.position, { x: i, y: j }))
       let image = piece ? piece.image : undefined
 
       // Made chessboard with all the 'useful' squares
