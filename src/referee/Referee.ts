@@ -28,39 +28,6 @@ export default class Referee {
     }
   }
 
-  isEnPassantMove(
-    px: number,
-    py: number,
-    x: number,
-    y: number,
-    type: PieceType,
-    team: TeamType,
-    boardState: Piece[]
-  ) {
-    const pawnDirection = team === TeamType.RED ? 1 : -1
-
-    if (type === PieceType.PAWN) {
-      if ((x - px === -1 || x - px === 1) && y - py === pawnDirection) {
-        const piece = boardState.find(
-          (p) => p.x === x && p.y === y - pawnDirection && p.enPassant
-        )
-        if (piece) {
-          return true
-        }
-      }
-    }
-
-    // if the attacking piece is pawn DONE
-    // upper left/upper right OR bottom left/bottom right DONE
-    // if a piece is under/above the attacked tile DONE
-    // if the attacked piece has made an en passant move in the previous turn DONE
-
-    // Put the attacking piece in correct position
-    // Remove the en passanted piece
-
-    return false
-  }
-
   isValidMove(
     px: number,
     py: number,
@@ -94,13 +61,13 @@ export default class Referee {
         // Attack Logic
         else if (x - px === -1 && y - py === pawnDirection) {
           // Attack in Upper or Bottom Left Corner
-          console.log('upper/bottom left')
+          // console.log('upper/bottom left')
           if (this.tileIsOccupiedByOpponent(x, y, boardState, team)) {
             return true
           }
         } else if (x - px === 1 && y - py === pawnDirection) {
           // Attack in Upper or Bottom Right Corner
-          console.log('upper/bottom right')
+          // console.log('upper/bottom right')
           if (this.tileIsOccupiedByOpponent(x, y, boardState, team)) {
             return true
           }
@@ -124,13 +91,13 @@ export default class Referee {
         // Attack Logic
         else if (y - py === -1 && x - px === pawnDirection) {
           // Attack in Right or Left Bottom Corner
-          console.log('right/left bottom')
+          // console.log('right/left bottom')
           if (this.tileIsOccupiedByOpponent(x, y, boardState, team)) {
             return true
           }
         } else if (y - py === 1 && x - px === pawnDirection) {
           // Attack in Right or Left Upper Corner
-          console.log('right/left upper')
+          // console.log('right/left upper')
           if (this.tileIsOccupiedByOpponent(x, y, boardState, team)) {
             return true
           }

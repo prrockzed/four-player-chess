@@ -112,54 +112,21 @@ export default function Chessboard() {
           pieces
         )
 
-        const isEnPassantMove = referee.isEnPassantMove(
-          gridX,
-          gridY,
-          x,
-          y,
-          currentPiece.type,
-          currentPiece.team,
-          pieces
-        )
+        const pawnDirection =
+          currentPiece.team === TeamType.RED ||
+          currentPiece.team === TeamType.BLUE
+            ? 1
+            : -1
 
-        const pawnDirection = currentPiece.team === TeamType.RED ? 1 : -1
-
-        if (isEnPassantMove) {
-          const updatedPieces = pieces.reduce((results, piece) => {
-            if (piece.x === gridX && piece.y === gridY) {
-              piece.enPassant = false
-              piece.x = x
-              piece.y = y
-              results.push(piece)
-            } else if (!(piece.x === x && piece.y === y - pawnDirection)) {
-              if (piece.type === PieceType.PAWN) {
-                piece.enPassant = false
-              }
-              results.push(piece)
-            }
-
-            return results
-          }, [] as Piece[])
-
-          setPieces(updatedPieces)
-        } else if (validMove) {
+        if (validMove) {
           // Updating the position of the piece
           // If a piece is attacked then remove it
           const updatedPieces = pieces.reduce((results, piece) => {
             if (piece.x === gridX && piece.y === gridY) {
-              if (Math.abs(gridY - y) === 2 && piece.type === PieceType.PAWN) {
-                // Special Pawn
-                piece.enPassant = true
-              } else {
-                piece.enPassant = false
-              }
               piece.x = x
               piece.y = y
               results.push(piece)
             } else if (!(piece.x === x && piece.y === y)) {
-              if (piece.type === PieceType.PAWN) {
-                piece.enPassant = false
-              }
               results.push(piece)
             }
             return results

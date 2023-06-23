@@ -9,7 +9,6 @@ export interface Piece {
   y: number
   type: PieceType
   team: TeamType
-  enPassant?: boolean
 }
 
 // PieceType enum
