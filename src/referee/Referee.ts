@@ -158,6 +158,7 @@ export default class Referee {
         }
       }
     } else if (type === PieceType.KNIGHT) {
+      // Movement and Attack Logic for Knight
       for (let i = -1; i < 2; i += 2) {
         for (let j = -1; j < 2; j += 2) {
           // Top and Bottom Side Movement
@@ -190,6 +191,52 @@ export default class Referee {
             }
           }
         }
+      }
+    } else if (type === PieceType.BISHOP) {
+      // Movement and Attack Logic for Bishop
+
+      // Top right movement
+      for (let i = 1; i < 11; i++) {
+        if (
+          desiredPosition.x - initialPosition.x === i &&
+          desiredPosition.y - initialPosition.y === i
+        ) {
+          console.log(`Moving ${i} squares top right`)
+          break
+        }
+      }
+
+      // Top left movement
+      for (let i = 1; i < 11; i++) {
+        if (
+          desiredPosition.x - initialPosition.x === -i &&
+          desiredPosition.y - initialPosition.y === i
+        ) {
+          console.log(`Moving ${i} squares top left`)
+          break
+        }
+      }
+    }
+
+    // Bottom right movement
+    for (let i = 1; i < 11; i++) {
+      if (
+        desiredPosition.x - initialPosition.x === i &&
+        desiredPosition.y - initialPosition.y === -i
+      ) {
+        console.log(`Moving ${i} squares down right`)
+        break
+      }
+    }
+
+    // Bottom left movement
+    for (let i = 1; i < 11; i++) {
+      if (
+        desiredPosition.x - initialPosition.x === -i &&
+        desiredPosition.y - initialPosition.y === -i
+      ) {
+        console.log(`Moving ${i} squares down left`)
+        break
       }
     }
 
