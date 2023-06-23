@@ -7,6 +7,7 @@ import {
 } from '../Constants'
 
 export default class Referee {
+  // Checking if the tile is empty or occupied by an opponent
   tileIsEmptyOrOccupiedByOpponent(
     position: Position,
     boardState: Piece[],
@@ -18,6 +19,7 @@ export default class Referee {
     )
   }
 
+  // Checking if the tile is occupied or not
   tileIsOccupied(position: Position, boardState: Piece[]): boolean {
     const piece = boardState.find((p) => samePosition(p.position, position))
 
@@ -28,6 +30,7 @@ export default class Referee {
     }
   }
 
+  // Checking if the tile is occupied by opponent or not
   tileIsOccupiedByOpponent(
     position: Position,
     boardState: Piece[],
@@ -44,6 +47,7 @@ export default class Referee {
     }
   }
 
+  // checking if the move made is valid or not
   isValidMove(
     initialPosition: Position,
     desiredPosition: Position,

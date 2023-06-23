@@ -21,6 +21,7 @@ export default function Chessboard() {
   const chessboardRef = useRef<HTMLDivElement>(null)
   const referee = new Referee()
 
+  // Function when player grabs a  piece
   function grabPiece(e: React.MouseEvent) {
     const chessboard = chessboardRef.current
     const element = e.target as HTMLElement
@@ -44,6 +45,7 @@ export default function Chessboard() {
     }
   }
 
+  // Function when player tries to move a piece
   function movePiece(e: React.MouseEvent) {
     const chessboard = chessboardRef.current
     if (activePiece && chessboard) {
@@ -98,6 +100,7 @@ export default function Chessboard() {
     }
   }
 
+  // Function when player drops a piece
   function dropPiece(e: React.MouseEvent) {
     const chessboard = chessboardRef.current
     if (activePiece && chessboard) {
@@ -110,6 +113,7 @@ export default function Chessboard() {
         samePosition(p.position, grabPosition)
       )
 
+      // Checking the validity of the move made by player
       if (currentPiece) {
         const validMove = referee.isValidMove(
           grabPosition,
