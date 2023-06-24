@@ -156,7 +156,7 @@ export default class Referee {
     desiredPosition: Position,
     team: TeamType,
     boardState: Piece[]
-  ) {
+  ): boolean {
     // Movement and Attack Logic for Knight
     for (let i = -1; i < 2; i += 2) {
       for (let j = -1; j < 2; j += 2) {
@@ -201,7 +201,7 @@ export default class Referee {
     desiredPosition: Position,
     team: TeamType,
     boardState: Piece[]
-  ) {
+  ): boolean {
     // Movement and Attack Logic for Bishop
     for (let i = 1; i < 11; i++) {
       // Top right movement
@@ -339,7 +339,7 @@ export default class Referee {
     desiredPosition: Position,
     team: TeamType,
     boardState: Piece[]
-  ) {
+  ): boolean {
     // Vertical Movement
     if (initialPosition.x === desiredPosition.x) {
       console.log('Rook Moved Vertically')
@@ -407,6 +407,16 @@ export default class Referee {
     return false
   }
 
+  // QUEEN Movement
+  queenMove(
+    initialPosition: Position,
+    desiredPosition: Position,
+    team: TeamType,
+    boardState: Piece[]
+  ): boolean {
+    return false
+  }
+
   // checking if the move made is valid or not
   isValidMove(
     initialPosition: Position,
@@ -444,6 +454,14 @@ export default class Referee {
         break
       case PieceType.ROOK:
         validMove = this.rookMove(
+          initialPosition,
+          desiredPosition,
+          team,
+          boardState
+        )
+        break
+      case PieceType.QUEEN:
+        validMove = this.queenMove(
           initialPosition,
           desiredPosition,
           team,
