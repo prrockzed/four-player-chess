@@ -11,6 +11,7 @@ Will be fun to make and play this game(Inspiration taken from chess.com).<br>
 <br>
 To enjoy Four Player Chess :<br>
 1. At first ensure that you have node and npm installed on your machine. If not then install it(google how to do it).
+<br>
 2. Download/clone the project(i.e., this repo)
 ``` 
   git clone https://github.com/prrockzed/four-player-chess.git
