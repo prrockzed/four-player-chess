@@ -342,8 +342,6 @@ export default class Referee {
   ): boolean {
     // Vertical Movement
     if (initialPosition.x === desiredPosition.x) {
-      console.log('Rook Moved Vertically')
-
       for (let i = 1; i < 14; i++) {
         let multiplier = desiredPosition.y < initialPosition.y ? -1 : 1
 
@@ -374,8 +372,6 @@ export default class Referee {
 
     // Horizontal Movement
     if (initialPosition.y === desiredPosition.y) {
-      console.log('Rook Moved Horizontally')
-
       for (let i = 1; i < 14; i++) {
         let multiplier = desiredPosition.x < initialPosition.x ? -1 : 1
 
@@ -414,7 +410,88 @@ export default class Referee {
     team: TeamType,
     boardState: Piece[]
   ): boolean {
-    console.log('Queen was moved')
+    for (let i = 1; i < 14; i++) {
+      // Vertical
+      if (desiredPosition.x === initialPosition.x) {
+        let multiplier = desiredPosition.y < initialPosition.y ? -1 : 1
+        let passedPosition: Position = {
+          x: initialPosition.x,
+          y: initialPosition.y + i * multiplier,
+        }
+        if (samePosition(passedPosition, desiredPosition)) {
+          if (
+            this.tileIsEmptyOrOccupiedByOpponent(
+              passedPosition,
+              boardState,
+              team
+            )
+          ) {
+            return true
+          }
+        } else {
+          if (this.tileIsOccupied(passedPosition, boardState)) {
+            break
+          }
+        }
+      }
+
+      // Horizontal
+      if (desiredPosition.y === initialPosition.y) {
+        let multiplier = desiredPosition.x < initialPosition.x ? -1 : 1
+        let passedPosition: Position = {
+          x: initialPosition.x + i * multiplier,
+          y: initialPosition.y,
+        }
+        if (samePosition(passedPosition, desiredPosition)) {
+          if (
+            this.tileIsEmptyOrOccupiedByOpponent(
+              passedPosition,
+              boardState,
+              team
+            )
+          ) {
+            return true
+          }
+        } else {
+          if (this.tileIsOccupied(passedPosition, boardState)) {
+            break
+          }
+        }
+      }
+
+      //Top right
+      if (
+        desiredPosition.y > initialPosition.y &&
+        desiredPosition.x > initialPosition.x
+      ) {
+        console.log('We are moving top right')
+      }
+
+      //Top left
+      if (
+        desiredPosition.y > initialPosition.y &&
+        desiredPosition.x < initialPosition.x
+      ) {
+        console.log('We are moving top left')
+      }
+
+      //Bottom right
+      if (
+        desiredPosition.y < initialPosition.y &&
+        desiredPosition.x > initialPosition.x
+      ) {
+        console.log('We are moving bottom right')
+      }
+
+      //Bottom left
+      if (
+        desiredPosition.y < initialPosition.y &&
+        desiredPosition.x < initialPosition.x
+      ) {
+        console.log('We are moving bottom left')
+      }
+    }
+
     return false
   }
 
