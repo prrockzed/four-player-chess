@@ -335,7 +335,7 @@ export default class Referee {
       if (initialPosition.x === desiredPosition.x) {
         console.log('Rook Moved Vertically')
 
-        for (let i = 1; i < 8; i++) {
+        for (let i = 1; i < 14; i++) {
           let multiplier = desiredPosition.y < initialPosition.y ? -1 : 1
 
           let passedPosition: Position = {
@@ -346,8 +346,19 @@ export default class Referee {
             passedPosition.x === desiredPosition.x &&
             passedPosition.y === desiredPosition.y
           ) {
-            console.log('Arriving at the designated place')
-            break
+            if (
+              this.tileIsEmptyOrOccupiedByOpponent(
+                passedPosition,
+                boardState,
+                team
+              )
+            ) {
+              return true
+            }
+          } else {
+            if (this.tileIsOccupied(passedPosition, boardState)) {
+              break
+            }
           }
         }
       }
@@ -356,7 +367,7 @@ export default class Referee {
       if (initialPosition.y === desiredPosition.y) {
         console.log('Rook Moved Horizontally')
 
-        for (let i = 1; i < 8; i++) {
+        for (let i = 1; i < 14; i++) {
           let multiplier = desiredPosition.x < initialPosition.x ? -1 : 1
 
           let passedPosition: Position = {
@@ -367,8 +378,19 @@ export default class Referee {
             passedPosition.x === desiredPosition.x &&
             passedPosition.y === desiredPosition.y
           ) {
-            console.log('Arriving at the designated place')
-            break
+            if (
+              this.tileIsEmptyOrOccupiedByOpponent(
+                passedPosition,
+                boardState,
+                team
+              )
+            ) {
+              return true
+            }
+          } else {
+            if (this.tileIsOccupied(passedPosition, boardState)) {
+              break
+            }
           }
         }
       }
