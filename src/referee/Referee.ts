@@ -1,11 +1,13 @@
 import { Piece, PieceType, TeamType, Position } from '../Constants'
 
-import { pawnMove } from './rules/PawnRules'
-import { knightMove } from './rules/KnightRules'
-import { bishopMove } from './rules/BishopRules'
-import { rookMove } from './rules/RookRules'
-import { queenMove } from './rules/QueenRules'
-import { kingMove } from './rules/KingRules'
+import {
+  pawnMove,
+  knightMove,
+  bishopMove,
+  rookMove,
+  queenMove,
+  kingMove,
+} from './rules'
 
 export default class Referee {
   // checking if the move made is valid or not

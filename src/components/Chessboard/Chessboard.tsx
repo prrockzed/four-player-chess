@@ -7,8 +7,6 @@ import {
   HORIZONTAL_AXIS,
   GRID_SIZE,
   Piece,
-  PieceType,
-  TeamType,
   initialBoardState,
   Position,
   samePosition,
