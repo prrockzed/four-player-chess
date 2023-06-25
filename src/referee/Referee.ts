@@ -411,27 +411,18 @@ export default class Referee {
     boardState: Piece[]
   ): boolean {
     for (let i = 1; i < 14; i++) {
-      // diagonal
-      let multiplierX
-      let multiplierY
-
-      if (desiredPosition.x < initialPosition.x) {
-        multiplierX = -1
-      } else if (desiredPosition.x > initialPosition.x) {
-        multiplierX = 1
-      } else {
-        // X value is unchanged
-        multiplierX = 0
-      }
-
-      if (desiredPosition.y < initialPosition.y) {
-        multiplierY = -1
-      } else if (desiredPosition.y > initialPosition.y) {
-        multiplierY = 1
-      } else {
-        // Y value is unchanged
-        multiplierY = 0
-      }
+      let multiplierX =
+        desiredPosition.x < initialPosition.x
+          ? -1
+          : desiredPosition.x > initialPosition.x
+          ? 1
+          : 0
+      let multiplierY =
+        desiredPosition.y < initialPosition.y
+          ? -1
+          : desiredPosition.y > initialPosition.y
+          ? 1
+          : 0
 
       let passedPosition: Position = {
         x: initialPosition.x + i * multiplierX,
@@ -462,27 +453,18 @@ export default class Referee {
     boardState: Piece[]
   ): boolean {
     for (let i = 1; i < 2; i++) {
-      // Diagonal
-      let multiplierX
-      let multiplierY
-
-      if (desiredPosition.x < initialPosition.x) {
-        multiplierX = -1
-      } else if (desiredPosition.x > initialPosition.x) {
-        multiplierX = 1
-      } else {
-        // X value is unchanged
-        multiplierX = 0
-      }
-
-      if (desiredPosition.y < initialPosition.y) {
-        multiplierY = -1
-      } else if (desiredPosition.y > initialPosition.y) {
-        multiplierY = 1
-      } else {
-        // Y value is unchanged
-        multiplierY = 0
-      }
+      let multiplierX =
+        desiredPosition.x < initialPosition.x
+          ? -1
+          : desiredPosition.x > initialPosition.x
+          ? 1
+          : 0
+      let multiplierY =
+        desiredPosition.y < initialPosition.y
+          ? -1
+          : desiredPosition.y > initialPosition.y
+          ? 1
+          : 0
 
       let passedPosition: Position = {
         x: initialPosition.x + i * multiplierX,
