@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react'
+import PlayerName from '../PlayerName/PlayerName'
 import Tile from '../Tile/Tile'
 import './Chessboard.css'
 import Referee from '../../referee/Referee'
@@ -187,19 +188,8 @@ export default function Chessboard() {
         id='chessboard'
         ref={chessboardRef}
       >
-        <div id='team-blue' className='playerName'>
-          Player BLUE
-        </div>
-        <div id='team-yellow' className='playerName'>
-          Player YELLOW
-        </div>
-        <div id='team-red' className='playerName'>
-          Player RED
-        </div>
-        <div id='team-green' className='playerName'>
-          Player GREEN
-        </div>
         {board}
+        <PlayerName />
       </div>
     </>
   )
