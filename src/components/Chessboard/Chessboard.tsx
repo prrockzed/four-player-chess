@@ -17,9 +17,11 @@ import {
 
 export default function Chessboard() {
   const [activePiece, setActivePiece] = useState<HTMLElement | null>(null)
+  const [promotionPawn, setPromotionPawn] = useState<Piece>()
   const [grabPosition, setGrabPosition] = useState<Position>({ x: -1, y: -1 })
   const [pieces, setPieces] = useState<Piece[]>(initialBoardState)
   const chessboardRef = useRef<HTMLDivElement>(null)
+  const modalRef = useRef<HTMLDivElement>(null)
   const referee = new Referee()
 
   // Function when player grabs a  piece
@@ -134,13 +136,17 @@ export default function Chessboard() {
 
               if (piece.type === PieceType.PAWN) {
                 if (piece.team === TeamType.RED && y === 7) {
-                  console.log('Red Pawn is ready for promotion')
+                  modalRef.current?.classList.remove('hidden')
+                  setPromotionPawn(piece)
                 } else if (piece.team === TeamType.YELLOW && y === 6) {
-                  console.log('Yellow Pawn is ready for promotion')
+                  modalRef.current?.classList.remove('hidden')
+                  setPromotionPawn(piece)
                 } else if (piece.team === TeamType.BLUE && x === 7) {
-                  console.log('Blue Pawn is ready for promotion')
+                  modalRef.current?.classList.remove('hidden')
+                  setPromotionPawn(piece)
                 } else if (piece.team === TeamType.GREEN && x === 6) {
-                  console.log('Green Pawn is ready for promotion')
+                  modalRef.current?.classList.remove('hidden')
+                  setPromotionPawn(piece)
                 }
               }
 
@@ -163,6 +169,11 @@ export default function Chessboard() {
     }
   }
 
+  function promotePawn(pieceType: PieceType) {
+    console.log('Pawn is promoting into ' + pieceType)
+    console.log(promotePawn)
+  }
+
   let board = []
 
   for (let j = VERTICAL_AXIS.length - 1; j >= 0; j--) {
@@ -181,6 +192,30 @@ export default function Chessboard() {
 
   return (
     <>
+      <div id='pawn-promotion-modal' className='hidden' ref={modalRef}>
+        <div className='modal-body'>
+          <img
+            onClick={() => promotePawn(PieceType.ROOK)}
+            src='/assets/images/yR.png'
+            alt='Rook'
+          />
+          <img
+            onClick={() => promotePawn(PieceType.KNIGHT)}
+            src='/assets/images/yN.png'
+            alt='Knight'
+          />
+          <img
+            onClick={() => promotePawn(PieceType.BISHOP)}
+            src='/assets/images/yB.png'
+            alt='Bishop'
+          />
+          <img
+            onClick={() => promotePawn(PieceType.QUEEN)}
+            src='/assets/images/yQ.png'
+            alt='Queen'
+          />
+        </div>
+      </div>
       <div
         onMouseMove={(e) => movePiece(e)}
         onMouseDown={(e) => grabPiece(e)}
