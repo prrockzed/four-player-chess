@@ -9,6 +9,8 @@ import {
   Piece,
   initialBoardState,
   Position,
+  PieceType,
+  TeamType,
   samePosition,
 } from '../../Constants'
 
@@ -125,12 +127,22 @@ export default function Chessboard() {
           // Updating the position of the piece
           // If a piece is attacked then remove it
           const updatedPieces = pieces.reduce((results, piece) => {
-            if (
-              piece.position.x === grabPosition.x &&
-              piece.position.y === grabPosition.y
-            ) {
+            if (samePosition(piece.position, grabPosition)) {
               piece.position.x = x
               piece.position.y = y
+
+              if (piece.type === PieceType.PAWN) {
+                if (piece.team === TeamType.RED && y === 7) {
+                  console.log('Red Pawn is ready for promotion')
+                } else if (piece.team === TeamType.YELLOW && y === 6) {
+                  console.log('Yellow Pawn is ready for promotion')
+                } else if (piece.team === TeamType.BLUE && x === 7) {
+                  console.log('Blue Pawn is ready for promotion')
+                } else if (piece.team === TeamType.GREEN && x === 6) {
+                  console.log('Green Pawn is ready for promotion')
+                }
+              }
+
               results.push(piece)
             } else if (!samePosition(piece.position, { x, y })) {
               results.push(piece)
@@ -167,14 +179,28 @@ export default function Chessboard() {
   }
 
   return (
-    <div
-      onMouseMove={(e) => movePiece(e)}
-      onMouseDown={(e) => grabPiece(e)}
-      onMouseUp={(e) => dropPiece(e)}
-      id='chessboard'
-      ref={chessboardRef}
-    >
-      {board}
-    </div>
+    <>
+      <div
+        onMouseMove={(e) => movePiece(e)}
+        onMouseDown={(e) => grabPiece(e)}
+        onMouseUp={(e) => dropPiece(e)}
+        id='chessboard'
+        ref={chessboardRef}
+      >
+        <div id='team-blue' className='playerName'>
+          Player BLUE
+        </div>
+        <div id='team-yellow' className='playerName'>
+          Player YELLOW
+        </div>
+        <div id='team-red' className='playerName'>
+          Player RED
+        </div>
+        <div id='team-green' className='playerName'>
+          Player GREEN
+        </div>
+        {board}
+      </div>
+    </>
   )
 }
