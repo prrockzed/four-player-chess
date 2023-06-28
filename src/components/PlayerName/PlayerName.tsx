@@ -1,5 +1,6 @@
 import './PlayerName.css'
 
+// Color names for the different players
 export default function PlayerName() {
   return (
     <>

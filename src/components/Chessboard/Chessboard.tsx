@@ -134,6 +134,7 @@ export default function Chessboard() {
               piece.position.x = x
               piece.position.y = y
 
+              // Checking if a pawn is promoted
               if (piece.type === PieceType.PAWN) {
                 if (piece.team === TeamType.RED && y === 7) {
                   modalRef.current?.classList.remove('hidden')
@@ -169,6 +170,7 @@ export default function Chessboard() {
     }
   }
 
+  // Function to promote a pawn to the desired piece
   function promotePawn(pieceType: PieceType) {
     if (promotionPawn === undefined) {
       return
@@ -178,6 +180,7 @@ export default function Chessboard() {
       if (samePosition(piece.position, promotionPawn.position)) {
         piece.type = pieceType
 
+        // Deciding team type
         let teamType = ''
         if (piece.team === TeamType.RED) {
           teamType = 'r'
@@ -189,8 +192,8 @@ export default function Chessboard() {
           teamType = 'g'
         }
 
+        // Deciding piece type
         let image = ''
-
         switch (pieceType) {
           case PieceType.ROOK:
             image = 'R'
@@ -212,11 +215,12 @@ export default function Chessboard() {
       return results
     }, [] as Piece[])
 
+    // Updating current piece and toggling the modal
     setPieces(updatedPieces)
-
     modalRef.current?.classList.add('hidden')
   }
 
+  // Deciding the type of color of the pieces when opening the modal
   function promotionTeamType() {
     if (promotionPawn?.team === TeamType.RED) {
       return 'r'
@@ -229,6 +233,7 @@ export default function Chessboard() {
     }
   }
 
+  // Setting the four player chessboard
   let board = []
 
   for (let j = VERTICAL_AXIS.length - 1; j >= 0; j--) {
