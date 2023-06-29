@@ -4,9 +4,10 @@ interface Props {
   image?: string
   num_i: number
   num_j: number
+  highlight: boolean
 }
 
-export default function Tile({ num_i, num_j, image }: Props) {
+export default function Tile({ num_i, num_j, image, highlight }: Props) {
   // Useless tiles are those tiles which are at the corners of the 'squared' chess board
 
   // Dark Tiles
@@ -19,16 +20,29 @@ export default function Tile({ num_i, num_j, image }: Props) {
     ) {
       return <div className='tile useless'></div>
     } else {
-      return (
-        <div className='tile dark-tile'>
-          {image && (
-            <div
-              style={{ backgroundImage: `url(${image})` }}
-              className='chess-piece'
-            ></div>
-          )}
-        </div>
-      )
+      if (highlight === false) {
+        return (
+          <div className='tile dark-tile'>
+            {image && (
+              <div
+                style={{ backgroundImage: `url(${image})` }}
+                className='chess-piece'
+              ></div>
+            )}
+          </div>
+        )
+      } else {
+        return (
+          <div className='tile dark-tile tile-highlight'>
+            {image && (
+              <div
+                style={{ backgroundImage: `url(${image})` }}
+                className='chess-piece'
+              ></div>
+            )}
+          </div>
+        )
+      }
     }
   }
 
@@ -42,16 +56,29 @@ export default function Tile({ num_i, num_j, image }: Props) {
     ) {
       return <div className='tile useless'></div>
     } else {
-      return (
-        <div className='tile light-tile'>
-          {image && (
-            <div
-              style={{ backgroundImage: `url(${image})` }}
-              className='chess-piece'
-            ></div>
-          )}
-        </div>
-      )
+      if (highlight === false) {
+        return (
+          <div className='tile light-tile'>
+            {image && (
+              <div
+                style={{ backgroundImage: `url(${image})` }}
+                className='chess-piece'
+              ></div>
+            )}
+          </div>
+        )
+      } else {
+        return (
+          <div className='tile light-tile tile-highlight'>
+            {image && (
+              <div
+                style={{ backgroundImage: `url(${image})` }}
+                className='chess-piece'
+              ></div>
+            )}
+          </div>
+        )
+      }
     }
   }
 }

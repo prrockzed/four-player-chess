@@ -24,8 +24,20 @@ export default function Chessboard() {
   const modalRef = useRef<HTMLDivElement>(null)
   const referee = new Referee()
 
+  // Updating Valid Moves
+  function updateValidMoves() {
+    setPieces((currentPieces) => {
+      return currentPieces.map((p) => {
+        p.possibleMoves = referee.getValidMoves(p, currentPieces)
+        return p
+      })
+    })
+  }
+
   // Function when player grabs a  piece
   function grabPiece(e: React.MouseEvent) {
+    updateValidMoves()
+
     const chessboard = chessboardRef.current
     const element = e.target as HTMLElement
 
@@ -243,9 +255,25 @@ export default function Chessboard() {
       const piece = pieces.find((p) => samePosition(p.position, { x: i, y: j }))
       let image = piece ? piece.image : undefined
 
+      let currentPiece =
+        activePiece != null
+          ? pieces.find((p) => samePosition(p.position, grabPosition))
+          : undefined
+      let highlight = currentPiece?.possibleMoves
+        ? currentPiece.possibleMoves.some((p) =>
+            samePosition(p, { x: i, y: j })
+          )
+        : false
+
       // Made chessboard with all the 'useful' squares
       board.push(
-        <Tile key={`${i},${j}`} num_i={num_i} num_j={num_j} image={image} />
+        <Tile
+          key={`${i},${j}`}
+          num_i={num_i}
+          num_j={num_j}
+          image={image}
+          highlight={highlight}
+        />
       )
     }
   }

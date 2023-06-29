@@ -40,6 +40,7 @@ export interface Piece {
   position: Position
   type: PieceType
   team: TeamType
+  possibleMoves?: Position[]
 }
 
 // InitialBoardState

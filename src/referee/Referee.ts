@@ -7,6 +7,7 @@ import {
   rookMove,
   queenMove,
   kingMove,
+  getPossiblePawnMoves,
 } from './rules'
 
 export default class Referee {
@@ -57,5 +58,14 @@ export default class Referee {
     }
 
     return validMove
+  }
+
+  getValidMoves(piece: Piece, boardState: Piece[]): Position[] {
+    switch (piece.type) {
+      case PieceType.PAWN:
+        return getPossiblePawnMoves(piece, boardState)
+      default:
+        return []
+    }
   }
 }
