@@ -113,7 +113,7 @@ export const getPossibleBishopMoves = (
   const possibleMoves: Position[] = []
 
   // Upper right movement
-  for (let i = 1; i < 8; i++) {
+  for (let i = 1; i < 11; i++) {
     const destination: Position = {
       x: bishop.position.x + i,
       y: bishop.position.y + i,
@@ -130,7 +130,7 @@ export const getPossibleBishopMoves = (
   }
 
   // Bottom right movement
-  for (let i = 1; i < 8; i++) {
+  for (let i = 1; i < 11; i++) {
     const destination: Position = {
       x: bishop.position.x + i,
       y: bishop.position.y - i,
@@ -147,7 +147,7 @@ export const getPossibleBishopMoves = (
   }
 
   // Bottom left movement
-  for (let i = 1; i < 8; i++) {
+  for (let i = 1; i < 11; i++) {
     const destination: Position = {
       x: bishop.position.x - i,
       y: bishop.position.y - i,
@@ -164,7 +164,7 @@ export const getPossibleBishopMoves = (
   }
 
   // Top left movement
-  for (let i = 1; i < 8; i++) {
+  for (let i = 1; i < 11; i++) {
     const destination: Position = {
       x: bishop.position.x - i,
       y: bishop.position.y + i,

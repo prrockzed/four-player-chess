@@ -1,5 +1,9 @@
 import { Piece, Position, TeamType, samePosition } from '../../Constants'
-import { tileIsOccupied, tileIsEmptyOrOccupiedByOpponent } from './GeneralRules'
+import {
+  tileIsOccupied,
+  tileIsOccupiedByOpponent,
+  tileIsEmptyOrOccupiedByOpponent,
+} from './GeneralRules'
 
 export const rookMove = (
   initialPosition: Position,
@@ -50,4 +54,69 @@ export const rookMove = (
   }
 
   return false
+}
+
+export const getPossibleRookMoves = (
+  rook: Piece,
+  boardState: Piece[]
+): Position[] => {
+  const possibleMoves: Position[] = []
+
+  // Top movement
+  for (let i = 1; i < 14; i++) {
+    const destination: Position = { x: rook.position.x, y: rook.position.y + i }
+
+    if (!tileIsOccupied(destination, boardState)) {
+      possibleMoves.push(destination)
+    } else if (tileIsOccupiedByOpponent(destination, boardState, rook.team)) {
+      possibleMoves.push(destination)
+      break
+    } else {
+      break
+    }
+  }
+
+  // Bottom movement
+  for (let i = 1; i < 14; i++) {
+    const destination: Position = { x: rook.position.x, y: rook.position.y - i }
+
+    if (!tileIsOccupied(destination, boardState)) {
+      possibleMoves.push(destination)
+    } else if (tileIsOccupiedByOpponent(destination, boardState, rook.team)) {
+      possibleMoves.push(destination)
+      break
+    } else {
+      break
+    }
+  }
+
+  // Left movement
+  for (let i = 1; i < 14; i++) {
+    const destination: Position = { x: rook.position.x - i, y: rook.position.y }
+
+    if (!tileIsOccupied(destination, boardState)) {
+      possibleMoves.push(destination)
+    } else if (tileIsOccupiedByOpponent(destination, boardState, rook.team)) {
+      possibleMoves.push(destination)
+      break
+    } else {
+      break
+    }
+  }
+
+  // Right movement
+  for (let i = 1; i < 14; i++) {
+    const destination: Position = { x: rook.position.x + i, y: rook.position.y }
+
+    if (!tileIsOccupied(destination, boardState)) {
+      possibleMoves.push(destination)
+    } else if (tileIsOccupiedByOpponent(destination, boardState, rook.team)) {
+      possibleMoves.push(destination)
+      break
+    } else {
+      break
+    }
+  }
+
+  return possibleMoves
 }
