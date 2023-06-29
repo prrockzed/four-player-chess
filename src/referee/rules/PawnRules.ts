@@ -138,6 +138,31 @@ export const getPossiblePawnMoves = (
         })
       }
     }
+  } else {
+    if (
+      !tileIsOccupied(
+        { x: pawn.position.x + pawnDirection, y: pawn.position.y },
+        boardState
+      )
+    ) {
+      possibleMoves.push({
+        x: pawn.position.x + pawnDirection,
+        y: pawn.position.y,
+      })
+
+      if (
+        pawn.position.x === specialRow &&
+        !tileIsOccupied(
+          { x: pawn.position.x + pawnDirection * 2, y: pawn.position.y },
+          boardState
+        )
+      ) {
+        possibleMoves.push({
+          x: pawn.position.x + pawnDirection * 2,
+          y: pawn.position.y,
+        })
+      }
+    }
   }
 
   return possibleMoves
