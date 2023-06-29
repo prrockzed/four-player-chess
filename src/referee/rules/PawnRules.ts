@@ -54,6 +54,7 @@ export const pawnMove = (
       }
     }
   }
+
   // Green and Blue Pawn
   else {
     // Movement Logic
@@ -113,56 +114,68 @@ export const getPossiblePawnMoves = (
   const pawnDirection =
     pawn.team === TeamType.RED || pawn.team === TeamType.BLUE ? 1 : -1
 
+  let normalMove: Position = { x: -1, y: -1 }
+  let specialMove: Position = { x: -1, y: -1 }
+  let upperLeftAttack: Position = { x: -1, y: -1 }
+  let upperRightAttack: Position = { x: -1, y: -1 }
+
+  // For red and yellow pawns
   if (pawn.team === TeamType.RED || pawn.team === TeamType.YELLOW) {
-    if (
-      !tileIsOccupied(
-        { x: pawn.position.x, y: pawn.position.y + pawnDirection },
-        boardState
-      )
-    ) {
-      possibleMoves.push({
-        x: pawn.position.x,
-        y: pawn.position.y + pawnDirection,
-      })
-
-      if (
-        pawn.position.y === specialRow &&
-        !tileIsOccupied(
-          { x: pawn.position.x, y: pawn.position.y + pawnDirection * 2 },
-          boardState
-        )
-      ) {
-        possibleMoves.push({
-          x: pawn.position.x,
-          y: pawn.position.y + pawnDirection * 2,
-        })
-      }
+    normalMove = {
+      x: pawn.position.x,
+      y: pawn.position.y + pawnDirection,
     }
-  } else {
-    if (
-      !tileIsOccupied(
-        { x: pawn.position.x + pawnDirection, y: pawn.position.y },
-        boardState
-      )
-    ) {
-      possibleMoves.push({
-        x: pawn.position.x + pawnDirection,
-        y: pawn.position.y,
-      })
-
-      if (
-        pawn.position.x === specialRow &&
-        !tileIsOccupied(
-          { x: pawn.position.x + pawnDirection * 2, y: pawn.position.y },
-          boardState
-        )
-      ) {
-        possibleMoves.push({
-          x: pawn.position.x + pawnDirection * 2,
-          y: pawn.position.y,
-        })
-      }
+    specialMove = {
+      x: normalMove.x,
+      y: normalMove.y + pawnDirection,
     }
+    upperLeftAttack = {
+      x: pawn.position.x - 1,
+      y: pawn.position.y + pawnDirection,
+    }
+    upperRightAttack = {
+      x: pawn.position.x + 1,
+      y: pawn.position.y + pawnDirection,
+    }
+  }
+
+  // For green and blue pawns
+  else {
+    normalMove = {
+      x: pawn.position.x + pawnDirection,
+      y: pawn.position.y,
+    }
+    specialMove = {
+      x: normalMove.x + pawnDirection,
+      y: normalMove.y,
+    }
+    upperLeftAttack = {
+      x: pawn.position.x + pawnDirection,
+      y: pawn.position.y - 1,
+    }
+    upperRightAttack = {
+      x: pawn.position.x + pawnDirection,
+      y: pawn.position.y + 1,
+    }
+  }
+
+  if (!tileIsOccupied(normalMove, boardState)) {
+    possibleMoves.push(normalMove)
+
+    if (
+      (pawn.position.y === specialRow || pawn.position.x === specialRow) &&
+      !tileIsOccupied(specialMove, boardState)
+    ) {
+      possibleMoves.push(specialMove)
+    }
+  }
+
+  if (tileIsOccupiedByOpponent(upperLeftAttack, boardState, pawn.team)) {
+    possibleMoves.push(upperLeftAttack)
+  }
+
+  if (tileIsOccupiedByOpponent(upperRightAttack, boardState, pawn.team)) {
+    possibleMoves.push(upperRightAttack)
   }
 
   return possibleMoves
