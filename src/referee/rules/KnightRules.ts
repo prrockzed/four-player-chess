@@ -1,6 +1,7 @@
 import { Piece, Position, TeamType } from '../../Constants'
 import { tileIsEmptyOrOccupiedByOpponent } from './GeneralRules'
 
+// Rules to move the Knights
 export const knightMove = (
   initialPosition: Position,
   desiredPosition: Position,
@@ -37,6 +38,7 @@ export const knightMove = (
   return false
 }
 
+// Checking possible moves for the Knights to highlight the grids
 export const getPossibleKnightMoves = (
   knight: Piece,
   boardState: Piece[]

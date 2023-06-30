@@ -5,6 +5,7 @@ import {
   tileIsEmptyOrOccupiedByOpponent,
 } from './GeneralRules'
 
+// Rules to move the Rooks
 export const rookMove = (
   initialPosition: Position,
   desiredPosition: Position,
@@ -56,6 +57,7 @@ export const rookMove = (
   return false
 }
 
+// Checking possible moves for the Rooks to highlight the grids
 export const getPossibleRookMoves = (
   rook: Piece,
   boardState: Piece[]

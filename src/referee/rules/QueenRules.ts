@@ -5,6 +5,7 @@ import {
   tileIsEmptyOrOccupiedByOpponent,
 } from './GeneralRules'
 
+// Rules to move the Queens
 export const queenMove = (
   initialPosition: Position,
   desiredPosition: Position,
@@ -44,6 +45,7 @@ export const queenMove = (
   return false
 }
 
+// Checking possible moves for the Queens to highlight the grids
 export const getPossibleQueenMoves = (
   queen: Piece,
   boardState: Piece[]

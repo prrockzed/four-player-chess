@@ -1,6 +1,7 @@
 import { Piece, Position, TeamType } from '../../Constants'
 import { tileIsOccupied, tileIsOccupiedByOpponent } from './GeneralRules'
 
+// Rules to move the Pawns
 export const pawnMove = (
   initialPosition: Position,
   desiredPosition: Position,
@@ -103,6 +104,7 @@ export const pawnMove = (
   return false
 }
 
+// Checking possible moves for the Pawns to highlight the grids
 export const getPossiblePawnMoves = (
   pawn: Piece,
   boardState: Piece[]
@@ -159,6 +161,7 @@ export const getPossiblePawnMoves = (
     }
   }
 
+  // Checking for possible moves
   if (!tileIsOccupied(normalMove, boardState)) {
     possibleMoves.push(normalMove)
 

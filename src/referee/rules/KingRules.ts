@@ -5,6 +5,7 @@ import {
   tileIsEmptyOrOccupiedByOpponent,
 } from './GeneralRules'
 
+// Rules to move the Kings
 export const kingMove = (
   initialPosition: Position,
   desiredPosition: Position,
@@ -44,6 +45,7 @@ export const kingMove = (
   return false
 }
 
+// Checking possible moves for the Kings to highlight the grids
 export const getPossibleKingMoves = (
   king: Piece,
   boardState: Piece[]

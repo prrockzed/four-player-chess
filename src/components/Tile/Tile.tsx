@@ -9,6 +9,7 @@ interface Props {
 
 export default function Tile({ num_i, num_j, image, highlight }: Props) {
   // Useless tiles are those tiles which are at the corners of the 'squared' chess board
+  // Also highlighting the valid moves of the players
 
   // Dark Tiles
   if ((num_i + num_j) % 2 === 0) {

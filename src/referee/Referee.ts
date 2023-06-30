@@ -1,5 +1,4 @@
 import { Piece, PieceType, TeamType, Position } from '../Constants'
-
 import {
   pawnMove,
   knightMove,
@@ -26,6 +25,7 @@ export default class Referee {
   ) {
     let validMove = false
 
+    // Checking the piece type
     switch (type) {
       case PieceType.PAWN:
         validMove = pawnMove(initialPosition, desiredPosition, team, boardState)
@@ -65,6 +65,7 @@ export default class Referee {
     return validMove
   }
 
+  // Getting the valid moves of the grabbed piece to highlight possible moves
   getValidMoves(piece: Piece, boardState: Piece[]): Position[] {
     switch (piece.type) {
       case PieceType.PAWN:

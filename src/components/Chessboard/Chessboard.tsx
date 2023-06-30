@@ -16,6 +16,7 @@ import {
 } from '../../Constants'
 
 export default function Chessboard() {
+  // Declaring Constants
   const [activePiece, setActivePiece] = useState<HTMLElement | null>(null)
   const [promotionPawn, setPromotionPawn] = useState<Piece>()
   const [grabPosition, setGrabPosition] = useState<Position>({ x: -1, y: -1 })
@@ -36,8 +37,10 @@ export default function Chessboard() {
 
   // Function when player grabs a  piece
   function grabPiece(e: React.MouseEvent) {
+    // Updating valid moves for previewing
     updateValidMoves()
 
+    // Grabbing the pieces off the chessboard
     const chessboard = chessboardRef.current
     const element = e.target as HTMLElement
 
@@ -117,6 +120,7 @@ export default function Chessboard() {
 
   // Function when player drops a piece
   function dropPiece(e: React.MouseEvent) {
+    // Dropping the pieces on the right grid
     const chessboard = chessboardRef.current
     if (activePiece && chessboard) {
       const x = Math.floor((e.clientX - chessboard.offsetLeft) / GRID_SIZE)

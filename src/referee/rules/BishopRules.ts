@@ -5,6 +5,7 @@ import {
   tileIsEmptyOrOccupiedByOpponent,
 } from './GeneralRules'
 
+// Rules to move the Bishops
 export const bishopMove = (
   initialPosition: Position,
   desiredPosition: Position,
@@ -106,6 +107,7 @@ export const bishopMove = (
   return false
 }
 
+// Checking possible moves for the Bishops to highlight the grids
 export const getPossibleBishopMoves = (
   bishop: Piece,
   boardState: Piece[]
