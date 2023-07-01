@@ -1,5 +1,5 @@
-import { Position, TeamType } from '../../Constants'
-import { Piece } from '../../models/Piece'
+import { TeamType } from '../../Constants'
+import { Piece, Position } from '../../models'
 import { tileIsOccupied, tileIsOccupiedByOpponent } from './GeneralRules'
 
 // Rules to move the Pawns

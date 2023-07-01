@@ -1,4 +1,5 @@
 import { Piece } from './models/Piece'
+import { Position } from './models/Position'
 
 // Axes
 export const VERTICAL_AXIS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
@@ -10,12 +11,6 @@ export const GRID_SIZE = 50
 // Same Position
 export function samePosition(p1: Position, p2: Position) {
   return p1.x === p2.x && p1.y === p2.y
-}
-
-// Position Interface
-export interface Position {
-  x: number
-  y: number
 }
 
 // PieceType enum

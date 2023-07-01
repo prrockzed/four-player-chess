@@ -1,10 +1,10 @@
-import {Position, TeamType, samePosition } from '../../Constants'
+import { TeamType, samePosition } from '../../Constants'
 import {
   tileIsOccupied,
   tileIsOccupiedByOpponent,
   tileIsEmptyOrOccupiedByOpponent,
 } from './GeneralRules'
-import { Piece } from "../../models/Piece";
+import { Piece, Position } from '../../models'
 
 // Rules to move the Kings
 export const kingMove = (

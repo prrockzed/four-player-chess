@@ -3,25 +3,24 @@ import { useEffect, useRef, useState } from 'react'
 import {
   initialBoardState,
   PieceType,
-  Position,
   samePosition,
   TeamType,
 } from '../../Constants'
 import {
-  bishopMove,
   getPossibleBishopMoves,
   getPossibleKingMoves,
   getPossibleKnightMoves,
   getPossiblePawnMoves,
   getPossibleQueenMoves,
   getPossibleRookMoves,
+  bishopMove,
   kingMove,
   knightMove,
   pawnMove,
   queenMove,
   rookMove,
 } from '../../referee/rules'
-import { Piece } from '../../models/Piece'
+import { Piece, Position } from '../../models'
 
 export default function Referee() {
   const [pieces, setPieces] = useState<Piece[]>(initialBoardState)

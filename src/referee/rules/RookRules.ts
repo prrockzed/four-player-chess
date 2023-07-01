@@ -1,5 +1,5 @@
-import { Position, TeamType, samePosition } from '../../Constants'
-import { Piece } from '../../models/Piece'
+import { TeamType, samePosition } from '../../Constants'
+import { Piece, Position } from '../../models'
 import {
   tileIsOccupied,
   tileIsOccupiedByOpponent,

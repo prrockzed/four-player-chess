@@ -1,5 +1,5 @@
-import { Position, samePosition, TeamType } from '../../Constants'
-import { Piece } from '../../models/Piece'
+import { samePosition, TeamType } from '../../Constants'
+import { Piece, Position } from '../../models'
 
 // Checking if the tile is occupied or not
 export const tileIsOccupied = (

@@ -1,4 +1,5 @@
-import { PieceType, Position, TeamType } from '../Constants'
+import { PieceType, TeamType } from '../Constants'
+import { Position } from './Position'
 
 export class Piece {
   image: string
