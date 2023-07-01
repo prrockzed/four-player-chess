@@ -8,78 +8,38 @@ interface Props {
 }
 
 export default function Tile({ num_i, num_j, image, highlight }: Props) {
-  // Useless tiles are those tiles which are at the corners of the 'squared' chess board
-  // Also highlighting the valid moves of the players
+  const className: string = [
+    'tile',
+    (num_i + num_j) % 2 === 0 && 'dark-tile', // Dark Tiles
+    (num_i + num_j) % 2 !== 0 && 'light-tile', // Light Tiles
+    highlight && 'tile-highlight', // Highlighting the tiles with possible moves
+    image && 'chess-piece-tile', // Highlighting the tiles with attacked chess pieces
+  ]
+    .filter(Boolean)
+    .join(' ')
 
-  // Dark Tiles
-  if ((num_i + num_j) % 2 === 0) {
-    if (
-      (num_i < 3 && num_j < 3) ||
-      (num_i >= 11 && num_j < 3) ||
-      (num_i >= 11 && num_j >= 11) ||
-      (num_i < 3 && num_j >= 11)
-    ) {
-      return <div className='tile useless'></div>
-    } else {
-      if (highlight === false) {
-        return (
-          <div className='tile dark-tile'>
-            {image && (
-              <div
-                style={{ backgroundImage: `url(${image})` }}
-                className='chess-piece'
-              ></div>
-            )}
-          </div>
-        )
-      } else {
-        return (
-          <div className='tile dark-tile tile-highlight'>
-            {image && (
-              <div
-                style={{ backgroundImage: `url(${image})` }}
-                className='chess-piece'
-              ></div>
-            )}
-          </div>
-        )
-      }
-    }
+  // Useless tiles
+  // Useless tiles are those tiles which are at the corners of the 'squared' chess board
+  if (
+    (num_i < 3 && num_j < 3) ||
+    (num_i >= 11 && num_j < 3) ||
+    (num_i >= 11 && num_j >= 11) ||
+    (num_i < 3 && num_j >= 11)
+  ) {
+    return <div className='tile useless'></div>
   }
 
-  // Light Tiles
+  // Chessboard tiles
   else {
-    if (
-      (num_i < 3 && num_j < 3) ||
-      (num_i >= 11 && num_j < 3) ||
-      (num_i >= 11 && num_j >= 11) ||
-      (num_i < 3 && num_j >= 11)
-    ) {
-      return <div className='tile useless'></div>
-    } else {
-      if (highlight === false) {
-        return (
-          <div className='tile light-tile'>
-            {image && (
-              <div
-                style={{ backgroundImage: `url(${image})` }}
-                className='chess-piece'
-              ></div>
-            )}
-          </div>
-        )
-      } else {
-        return (
-          <div className='tile light-tile tile-highlight'>
-            {image && (
-              <div
-                style={{ backgroundImage: `url(${image})` }}
-                className='chess-piece'
-              ></div>
-            )}
-          </div>
-        )
-      }
-    }
+    return (
+      <div className={className}>
+        {image && (
+          <div
+            style={{ backgroundImage: `url(${image})` }}
+            className='chess-piece'
+          ></div>
+        )}
+      </div>
+    )
   }
 }

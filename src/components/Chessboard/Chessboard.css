@@ -29,7 +29,6 @@
   height: 150px;
   width: 700px;
   background-color: rgba(0, 0, 0, 0.75);
-  border-radius: 10px;
 }
 
 #pawn-promotion-modal > .modal-body > img {
@@ -41,12 +40,4 @@
 #pawn-promotion-modal > .modal-body > img:hover {
   background-color: rgba(255, 255, 255, 0.3);
   cursor: pointer;
-}
-
-.tile-highlight::before {
-  content: ' ';
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.4);
 }

@@ -26,13 +26,30 @@
 }
 
 .dark-tile {
-  background-color: #ABABAB;
+  background-color: #ababab;
 }
 
 .light-tile {
-  background-color: #DCDCDC;
+  background-color: #dcdcdc;
 }
 
 .useless {
   background-color: black;
+}
+
+.tile-highlight:not(.chess-piece-tile)::before {
+  content: ' ';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.tile-highlight.chess-piece-tile::before {
+  position: absolute;
+  content: ' ';
+  width: 45px;
+  height: 45px;
+  border: 2.5px solid rgba(0, 0, 0);
+  border-radius: 50%;
 }

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import PlayerName from '../PlayerName/PlayerName'
 import Tile from '../Tile/Tile'
 import './Chessboard.css'
@@ -59,6 +59,7 @@ export default function Chessboard() {
       element.style.position = 'absolute'
       element.style.left = `${x}px`
       element.style.top = `${y}px`
+
       setActivePiece(element)
     }
   }
@@ -66,6 +67,7 @@ export default function Chessboard() {
   // Function when player tries to move a piece
   function movePiece(e: React.MouseEvent) {
     const chessboard = chessboardRef.current
+
     if (activePiece && chessboard) {
       const leftX = chessboard.offsetLeft - 4
       const midleftX =
@@ -122,6 +124,7 @@ export default function Chessboard() {
   function dropPiece(e: React.MouseEvent) {
     // Dropping the pieces on the right grid
     const chessboard = chessboardRef.current
+
     if (activePiece && chessboard) {
       const x = Math.floor((e.clientX - chessboard.offsetLeft) / GRID_SIZE)
       const y = Math.abs(
@@ -182,6 +185,7 @@ export default function Chessboard() {
           activePiece.style.removeProperty('left')
         }
       }
+
       setActivePiece(null)
     }
   }
@@ -227,6 +231,7 @@ export default function Chessboard() {
 
         piece.image = `assets/images/${teamType}${image}.png`
       }
+
       results.push(piece)
       return results
     }, [] as Piece[])
