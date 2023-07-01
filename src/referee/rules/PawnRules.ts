@@ -23,7 +23,7 @@ export const pawnMove = (
       if (
         !tileIsOccupied(desiredPosition, boardState) &&
         !tileIsOccupied(
-          { x: desiredPosition.x, y: desiredPosition.y - pawnDirection },
+          new Position(desiredPosition.x, desiredPosition.y - pawnDirection),
           boardState
         )
       ) {
@@ -68,7 +68,7 @@ export const pawnMove = (
       if (
         !tileIsOccupied(desiredPosition, boardState) &&
         !tileIsOccupied(
-          { x: desiredPosition.x - pawnDirection, y: desiredPosition.y },
+          new Position(desiredPosition.x - pawnDirection, desiredPosition.y),
           boardState
         )
       ) {
@@ -117,49 +117,37 @@ export const getPossiblePawnMoves = (
   const pawnDirection =
     pawn.team === TeamType.RED || pawn.team === TeamType.BLUE ? 1 : -1
 
-  let normalMove: Position = { x: -1, y: -1 }
-  let specialMove: Position = { x: -1, y: -1 }
-  let upperLeftAttack: Position = { x: -1, y: -1 }
-  let upperRightAttack: Position = { x: -1, y: -1 }
+  let normalMove = new Position(-1, -1)
+  let specialMove = new Position(-1, -1)
+  let upperLeftAttack = new Position(-1, -1)
+  let upperRightAttack = new Position(-1, -1)
 
   // For red and yellow pawns
   if (pawn.team === TeamType.RED || pawn.team === TeamType.YELLOW) {
-    normalMove = {
-      x: pawn.position.x,
-      y: pawn.position.y + pawnDirection,
-    }
-    specialMove = {
-      x: normalMove.x,
-      y: normalMove.y + pawnDirection,
-    }
-    upperLeftAttack = {
-      x: pawn.position.x - 1,
-      y: pawn.position.y + pawnDirection,
-    }
-    upperRightAttack = {
-      x: pawn.position.x + 1,
-      y: pawn.position.y + pawnDirection,
-    }
+    normalMove = new Position(pawn.position.x, pawn.position.y + pawnDirection)
+    specialMove = new Position(normalMove.x, normalMove.y + pawnDirection)
+    upperLeftAttack = new Position(
+      pawn.position.x - 1,
+      pawn.position.y + pawnDirection
+    )
+    upperRightAttack = new Position(
+      pawn.position.x + 1,
+      pawn.position.y + pawnDirection
+    )
   }
 
   // For green and blue pawns
   else {
-    normalMove = {
-      x: pawn.position.x + pawnDirection,
-      y: pawn.position.y,
-    }
-    specialMove = {
-      x: normalMove.x + pawnDirection,
-      y: normalMove.y,
-    }
-    upperLeftAttack = {
-      x: pawn.position.x + pawnDirection,
-      y: pawn.position.y - 1,
-    }
-    upperRightAttack = {
-      x: pawn.position.x + pawnDirection,
-      y: pawn.position.y + 1,
-    }
+    normalMove = new Position(pawn.position.x + pawnDirection, pawn.position.y)
+    specialMove = new Position(normalMove.x + pawnDirection, normalMove.y)
+    upperLeftAttack = new Position(
+      pawn.position.x + pawnDirection,
+      pawn.position.y - 1
+    )
+    upperRightAttack = new Position(
+      pawn.position.x + pawnDirection,
+      pawn.position.y + 1
+    )
   }
 
   // Checking for possible moves

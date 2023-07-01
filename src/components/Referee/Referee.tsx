@@ -75,7 +75,10 @@ export default function Referee() {
 
           results.push(piece)
         } else if (
-          !samePosition(piece.position, { x: destination.x, y: destination.y })
+          !samePosition(
+            piece.position,
+            new Position(destination.x, destination.y)
+          )
         ) {
           results.push(piece)
         }
