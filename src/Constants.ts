@@ -1,3 +1,5 @@
+import { Piece } from "./models/Piece";
+
 // Axes
 export const VERTICAL_AXIS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 export const HORIZONTAL_AXIS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
@@ -32,15 +34,6 @@ export enum TeamType {
   BLUE,
   YELLOW,
   GREEN,
-}
-
-// Piece Interface
-export interface Piece {
-  image: string
-  position: Position
-  type: PieceType
-  team: TeamType
-  possibleMoves?: Position[]
 }
 
 // InitialBoardState

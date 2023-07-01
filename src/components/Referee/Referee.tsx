@@ -2,7 +2,6 @@ import Chessboard from '../Chessboard/Chessboard'
 import { useEffect, useRef, useState } from 'react'
 import {
   initialBoardState,
-  Piece,
   PieceType,
   Position,
   samePosition,
@@ -22,6 +21,7 @@ import {
   queenMove,
   rookMove,
 } from '../../referee/rules'
+import { Piece } from '../../models/Piece'
 
 export default function Referee() {
   const [pieces, setPieces] = useState<Piece[]>(initialBoardState)
