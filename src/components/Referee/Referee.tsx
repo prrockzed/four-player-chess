@@ -3,12 +3,6 @@ import { useEffect, useRef, useState } from 'react'
 import { initialBoard } from '../../Constants'
 import { PieceType, TeamType } from '../../Types'
 import {
-  getPossibleBishopMoves,
-  getPossibleKingMoves,
-  getPossibleKnightMoves,
-  getPossiblePawnMoves,
-  getPossibleQueenMoves,
-  getPossibleRookMoves,
   bishopMove,
   kingMove,
   knightMove,
@@ -42,7 +36,12 @@ export default function Referee() {
       playedPiece.team
     )
 
-    board.playMove(validMove, playedPiece, destination)
+    // playMove modifies the board state
+    setBoard((previousBoard) => {
+      // Playing a move
+      playedMoveIsValid = board.playMove(validMove, playedPiece, destination)
+      return board.clone()
+    })
 
     // Checking if a pawn is promoted
     if (playedPiece.isPawn) {
@@ -60,7 +59,7 @@ export default function Referee() {
         setPromotionPawn(playedPiece)
       }
     }
-    return true
+    return playedMoveIsValid
   }
 
   function isValidMove(
@@ -121,25 +120,6 @@ export default function Referee() {
     }
 
     return validMove
-  }
-
-  function getValidMoves(piece: Piece, boardState: Piece[]): Position[] {
-    switch (piece.type) {
-      case PieceType.PAWN:
-        return getPossiblePawnMoves(piece, boardState)
-      case PieceType.KNIGHT:
-        return getPossibleKnightMoves(piece, boardState)
-      case PieceType.BISHOP:
-        return getPossibleBishopMoves(piece, boardState)
-      case PieceType.ROOK:
-        return getPossibleRookMoves(piece, boardState)
-      case PieceType.QUEEN:
-        return getPossibleQueenMoves(piece, boardState)
-      case PieceType.KING:
-        return getPossibleKingMoves(piece, boardState)
-      default:
-        return []
-    }
   }
 
   // Function to promote a pawn to the desired piece

@@ -10,4 +10,8 @@ export class Position {
   samePosition(otherPosition: Position): boolean {
     return this.x === otherPosition.x && this.y === otherPosition.y
   }
+
+  clone(): Position {
+    return new Position(this.x, this.y)
+  }
 }
