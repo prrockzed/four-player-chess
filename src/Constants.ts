@@ -1,6 +1,7 @@
 import { Piece } from './models/Piece'
 import { Position } from './models/Position'
 import { PieceType, TeamType } from './Types'
+import { Board } from './models/Board'
 
 // Axes
 export const VERTICAL_AXIS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
@@ -10,7 +11,7 @@ export const HORIZONTAL_AXIS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 export const GRID_SIZE = 50
 
 // InitialBoardState
-export const initialBoardState: Piece[] = [
+export const initialBoard: Board = new Board([
   // Red Pieces
   new Piece(new Position(3, 0), PieceType.ROOK, TeamType.RED),
   new Piece(new Position(4, 0), PieceType.KNIGHT, TeamType.RED),
@@ -86,4 +87,4 @@ export const initialBoardState: Piece[] = [
   new Piece(new Position(12, 8), PieceType.PAWN, TeamType.GREEN),
   new Piece(new Position(12, 9), PieceType.PAWN, TeamType.GREEN),
   new Piece(new Position(12, 10), PieceType.PAWN, TeamType.GREEN),
-]
+])

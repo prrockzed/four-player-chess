@@ -15,6 +15,18 @@ export class Piece {
     this.team = team
   }
 
+  get isPawn(): boolean {
+    return this.type === PieceType.PAWN
+  }
+
+  get isRook(): boolean {
+    return this.type === PieceType.ROOK
+  }
+
+  get isKing(): boolean {
+    return this.type === PieceType.KING
+  }
+
   samePiecePosition(otherPiece: Piece): boolean {
     return this.position.samePosition(otherPiece.position)
   }
