@@ -45,18 +45,18 @@ export default function Referee() {
 
     // Checking if a pawn is promoted
     if (playedPiece.isPawn) {
-      if (playedPiece.team === TeamType.RED && destination.y === 7) {
+      if (
+        (playedPiece.team === TeamType.RED && destination.y === 7) ||
+        (playedPiece.team === TeamType.YELLOW && destination.y === 6) ||
+        (playedPiece.team === TeamType.BLUE && destination.x === 7) ||
+        (playedPiece.team === TeamType.GREEN && destination.x === 6)
+      ) {
         modalRef.current?.classList.remove('hidden')
-        setPromotionPawn(playedPiece)
-      } else if (playedPiece.team === TeamType.YELLOW && destination.y === 6) {
-        modalRef.current?.classList.remove('hidden')
-        setPromotionPawn(playedPiece)
-      } else if (playedPiece.team === TeamType.BLUE && destination.x === 7) {
-        modalRef.current?.classList.remove('hidden')
-        setPromotionPawn(playedPiece)
-      } else if (playedPiece.team === TeamType.GREEN && destination.x === 6) {
-        modalRef.current?.classList.remove('hidden')
-        setPromotionPawn(playedPiece)
+        setPromotionPawn((previousPromotionPawn) => {
+          const clonedPlayedPiece = playedPiece.clone()
+          clonedPlayedPiece.position = destination.clone()
+          return clonedPlayedPiece
+        })
       }
     }
     return playedMoveIsValid
@@ -128,48 +128,22 @@ export default function Referee() {
       return
     }
 
-    board.pieces = board.pieces.reduce((results, piece) => {
-      if (piece.samePiecePosition(promotionPawn)) {
-        piece.type = pieceType
-
-        // Deciding team type
-        let teamType = ''
-        if (piece.team === TeamType.RED) {
-          teamType = 'r'
-        } else if (piece.team === TeamType.BLUE) {
-          teamType = 'b'
-        } else if (piece.team === TeamType.YELLOW) {
-          teamType = 'y'
-        } else if (piece.team === TeamType.GREEN) {
-          teamType = 'g'
+    setBoard((previousBoard) => {
+      const clonedBoard = board.clone()
+      clonedBoard.pieces = clonedBoard.pieces.reduce((results, piece) => {
+        if (piece.samePiecePosition(promotionPawn)) {
+          results.push(new Piece(piece.position.clone(), pieceType, piece.team))
+        } else {
+          results.push(piece)
         }
+        return results
+      }, [] as Piece[])
+      clonedBoard.calculateAllMoves()
 
-        // Deciding piece type
-        let image = ''
-        switch (pieceType) {
-          case PieceType.ROOK:
-            image = 'R'
-            break
-          case PieceType.KNIGHT:
-            image = 'N'
-            break
-          case PieceType.BISHOP:
-            image = 'B'
-            break
-          case PieceType.QUEEN:
-            image = 'Q'
-            break
-        }
+      return clonedBoard
+    })
 
-        piece.image = `assets/images/${teamType}${image}.png`
-      }
-
-      results.push(piece)
-      return results
-    }, [] as Piece[])
-
-    // Updating current piece and toggling the modal
-    updatePossibleMoves()
+    // Toggling the modal
     modalRef.current?.classList.add('hidden')
   }
 
