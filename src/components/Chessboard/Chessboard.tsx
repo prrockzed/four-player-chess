@@ -114,7 +114,7 @@ export default function Chessboard({ playMove, pieces }: Props) {
       const currentPiece = pieces.find((p) => p.samePosition(grabPosition))
 
       if (currentPiece) {
-        var succes = playMove(currentPiece, new Position(x, y))
+        var succes = playMove(currentPiece.clone(), new Position(x, y))
 
         if (!succes) {
           //RESETS THE PIECE POSITION
