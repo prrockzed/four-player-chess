@@ -1,10 +1,10 @@
-import { TeamType } from '../../Types'
+import { TeamType } from '../Types'
 import {
   tileIsOccupied,
   tileIsOccupiedByOpponent,
   tileIsEmptyOrOccupiedByOpponent,
 } from './GeneralRules'
-import { Piece, Position } from '../../models'
+import { Piece, Position } from '../models'
 
 // Rules to move the Bishops
 export const bishopMove = (

@@ -15,7 +15,7 @@ import {
   pawnMove,
   queenMove,
   rookMove,
-} from '../../referee/rules'
+} from '../../rules'
 import { Piece, Position } from '../../models'
 
 export default function Referee() {

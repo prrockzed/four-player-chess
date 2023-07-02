@@ -1,5 +1,5 @@
-import { Piece, Position } from '../../models'
-import { TeamType } from '../../Types'
+import { Piece, Position } from '../models'
+import { TeamType } from '../Types'
 import { tileIsEmptyOrOccupiedByOpponent } from './GeneralRules'
 
 // Rules to move the Knights
