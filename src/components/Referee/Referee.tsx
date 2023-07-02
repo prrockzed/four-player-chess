@@ -1,11 +1,6 @@
 import Chessboard from '../Chessboard/Chessboard'
 import { useEffect, useRef, useState } from 'react'
-import {
-  initialBoardState,
-  PieceType,
-  samePosition,
-  TeamType,
-} from '../../Constants'
+import { initialBoardState, PieceType, TeamType } from '../../Constants'
 import {
   getPossibleBishopMoves,
   getPossibleKingMoves,
@@ -52,7 +47,7 @@ export default function Referee() {
       //UPDATES THE PIECE POSITION
       //AND IF A PIECE IS ATTACKED, REMOVES IT
       const updatedPieces = pieces.reduce((results, piece) => {
-        if (samePosition(piece.position, playedPiece.position)) {
+        if (piece.samePiecePosition(playedPiece)) {
           piece.position.x = destination.x
           piece.position.y = destination.y
 
@@ -75,10 +70,7 @@ export default function Referee() {
 
           results.push(piece)
         } else if (
-          !samePosition(
-            piece.position,
-            new Position(destination.x, destination.y)
-          )
+          !piece.samePosition(new Position(destination.x, destination.y))
         ) {
           results.push(piece)
         }
@@ -150,7 +142,7 @@ export default function Referee() {
     }
 
     const updatedPieces = pieces.reduce((results, piece) => {
-      if (samePosition(piece.position, promotionPawn.position)) {
+      if (piece.samePiecePosition(promotionPawn)) {
         piece.type = pieceType
 
         // Deciding team type

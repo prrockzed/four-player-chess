@@ -2,12 +2,7 @@ import { useRef, useState } from 'react'
 import PlayerName from '../PlayerName/PlayerName'
 import Tile from '../Tile/Tile'
 import './Chessboard.css'
-import {
-  VERTICAL_AXIS,
-  HORIZONTAL_AXIS,
-  GRID_SIZE,
-  samePosition,
-} from '../../Constants'
+import { VERTICAL_AXIS, HORIZONTAL_AXIS, GRID_SIZE } from '../../Constants'
 import { Piece, Position } from '../../models'
 
 interface Props {
@@ -116,9 +111,7 @@ export default function Chessboard({ playMove, pieces }: Props) {
         Math.ceil((e.clientY - chessboard.offsetTop - 700) / GRID_SIZE)
       )
 
-      const currentPiece = pieces.find((p) =>
-        samePosition(p.position, grabPosition)
-      )
+      const currentPiece = pieces.find((p) => p.samePosition(grabPosition))
 
       if (currentPiece) {
         var succes = playMove(currentPiece, new Position(x, y))
@@ -141,18 +134,16 @@ export default function Chessboard({ playMove, pieces }: Props) {
     for (let i = 0; i < HORIZONTAL_AXIS.length; i++) {
       const num_i = i
       const num_j = j
-      const piece = pieces.find((p) =>
-        samePosition(p.position, new Position(i, j))
-      )
+      const piece = pieces.find((p) => p.samePosition(new Position(i, j)))
       let image = piece ? piece.image : undefined
 
       let currentPiece =
         activePiece != null
-          ? pieces.find((p) => samePosition(p.position, grabPosition))
+          ? pieces.find((p) => p.samePosition(grabPosition))
           : undefined
       let highlight = currentPiece?.possibleMoves
         ? currentPiece.possibleMoves.some((p) =>
-            samePosition(p, new Position(i, j))
+            p.samePosition(new Position(i, j))
           )
         : false
 

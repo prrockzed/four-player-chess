@@ -14,4 +14,12 @@ export class Piece {
     this.type = type
     this.team = team
   }
+
+  samePiecePosition(otherPiece: Piece): boolean {
+    return this.position.samePosition(otherPiece.position)
+  }
+
+  samePosition(otherPosition: Position): boolean {
+    return this.position.samePosition(otherPosition)
+  }
 }
