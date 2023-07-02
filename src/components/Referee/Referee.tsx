@@ -1,6 +1,7 @@
 import Chessboard from '../Chessboard/Chessboard'
 import { useEffect, useRef, useState } from 'react'
-import { initialBoardState, PieceType, TeamType } from '../../Constants'
+import { initialBoardState } from '../../Constants'
+import { PieceType, TeamType } from '../../Types'
 import {
   getPossibleBishopMoves,
   getPossibleKingMoves,

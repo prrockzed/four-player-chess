@@ -1,4 +1,4 @@
-import { TeamType } from '../../Constants'
+import { TeamType } from '../../Types'
 import {
   tileIsOccupied,
   tileIsOccupiedByOpponent,
