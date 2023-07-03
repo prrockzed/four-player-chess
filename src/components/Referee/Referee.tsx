@@ -19,15 +19,30 @@ export default function Referee() {
   const modalRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    updatePossibleMoves()
-  }, [])
-
-  function updatePossibleMoves() {
     board.calculateAllMoves()
-  }
+  }, [])
 
   function playMove(playedPiece: Piece, destination: Position): boolean {
     if (playedPiece.possibleMoves === undefined) return false
+
+    if (playedPiece.team === TeamType.RED && board.totalTurns % 4 !== 1) {
+      return false
+    } else if (
+      playedPiece.team === TeamType.BLUE &&
+      board.totalTurns % 4 !== 2
+    ) {
+      return false
+    } else if (
+      playedPiece.team === TeamType.YELLOW &&
+      board.totalTurns % 4 !== 3
+    ) {
+      return false
+    } else if (
+      playedPiece.team === TeamType.GREEN &&
+      board.totalTurns % 4 !== 0
+    ) {
+      return false
+    }
 
     let playedMoveIsValid = false
 
@@ -39,9 +54,19 @@ export default function Referee() {
 
     // playMove modifies the board state
     setBoard((previousBoard) => {
+      const clonedBoard = board.clone()
+
       // Playing a move
-      playedMoveIsValid = board.playMove(validMove, playedPiece, destination)
-      return board.clone()
+      playedMoveIsValid = clonedBoard.playMove(
+        validMove,
+        playedPiece,
+        destination
+      )
+
+      // Incrementing the totalTurns when the correct piece is played
+      clonedBoard.totalTurns += 1
+
+      return clonedBoard
     })
 
     // Checking if a pawn is promoted
@@ -161,8 +186,20 @@ export default function Referee() {
     }
   }
 
+  let teamTurn = ''
+  if (board.totalTurns % 4 === 1) {
+    teamTurn = "Now it's player RED turn"
+  } else if (board.totalTurns % 4 === 2) {
+    teamTurn = "Now it's player Blue turn"
+  } else if (board.totalTurns % 4 === 3) {
+    teamTurn = "Now it's player Yellow turn"
+  } else if (board.totalTurns % 4 === 0) {
+    teamTurn = "Now it's player Green turn"
+  }
+
   return (
     <>
+      <p style={{ color: 'white', fontSize: '12px' }}>{teamTurn}</p>
       <div id='pawn-promotion-modal' className='hidden' ref={modalRef}>
         <div className='modal-body'>
           <img
