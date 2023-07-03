@@ -1,7 +1,10 @@
+import './Arbiter.css'
+import { Board } from '../../models/Board'
 import Chessboard from '../Chessboard/Chessboard'
-import { useEffect, useRef, useState } from 'react'
 import { initialBoard } from '../../Constants'
 import { PieceType, TeamType } from '../../Types'
+import { Piece, Position } from '../../models'
+import { useEffect, useRef, useState } from 'react'
 import {
   bishopMove,
   kingMove,
@@ -10,21 +13,23 @@ import {
   queenMove,
   rookMove,
 } from '../../rules'
-import { Piece, Position } from '../../models'
-import { Board } from '../../models/Board'
 
-export default function Referee() {
+export default function Arbiter() {
+  // Declaring the constants
   const [board, setBoard] = useState<Board>(initialBoard)
   const [promotionPawn, setPromotionPawn] = useState<Piece>()
   const modalRef = useRef<HTMLDivElement>(null)
 
+  // Calculating all moves and updating it
   useEffect(() => {
     board.calculateAllMoves()
   }, [])
 
+  // Function for playing a move
   function playMove(playedPiece: Piece, destination: Position): boolean {
     if (playedPiece.possibleMoves === undefined) return false
 
+    // Checking if the correct team has played the piece
     if (playedPiece.team === TeamType.RED && board.totalTurns % 4 !== 1) {
       return false
     } else if (
@@ -44,6 +49,7 @@ export default function Referee() {
       return false
     }
 
+    // Checking for valid move
     let playedMoveIsValid = false
 
     const validMove = playedPiece.possibleMoves?.some((m) =>
@@ -88,6 +94,7 @@ export default function Referee() {
     return playedMoveIsValid
   }
 
+  // Checking if the move is valid
   function isValidMove(
     initialPosition: Position,
     desiredPosition: Position,
@@ -95,6 +102,7 @@ export default function Referee() {
     team: TeamType
   ) {
     let validMove = false
+
     switch (type) {
       case PieceType.PAWN:
         validMove = pawnMove(
@@ -156,14 +164,17 @@ export default function Referee() {
 
     setBoard((previousBoard) => {
       const clonedBoard = board.clone()
+
       clonedBoard.pieces = clonedBoard.pieces.reduce((results, piece) => {
         if (piece.samePiecePosition(promotionPawn)) {
           results.push(new Piece(piece.position.clone(), pieceType, piece.team))
         } else {
           results.push(piece)
         }
+
         return results
       }, [] as Piece[])
+
       clonedBoard.calculateAllMoves()
 
       return clonedBoard
@@ -186,20 +197,21 @@ export default function Referee() {
     }
   }
 
-  let teamTurn = ''
+  // Writing the name of the player who play the next move
+  let playerTurn = ''
   if (board.totalTurns % 4 === 1) {
-    teamTurn = "Now it's player RED turn"
+    playerTurn = 'RED'
   } else if (board.totalTurns % 4 === 2) {
-    teamTurn = "Now it's player Blue turn"
+    playerTurn = 'BLUE'
   } else if (board.totalTurns % 4 === 3) {
-    teamTurn = "Now it's player Yellow turn"
+    playerTurn = 'YELLOW'
   } else if (board.totalTurns % 4 === 0) {
-    teamTurn = "Now it's player Green turn"
+    playerTurn = 'GREEN'
   }
 
   return (
     <>
-      <p style={{ color: 'white', fontSize: '12px' }}>{teamTurn}</p>
+      <div className='playerTurn'>Now it's Player {playerTurn} turn</div>
       <div id='pawn-promotion-modal' className='hidden' ref={modalRef}>
         <div className='modal-body'>
           <img

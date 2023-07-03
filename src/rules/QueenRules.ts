@@ -13,6 +13,7 @@ export const queenMove = (
   team: TeamType,
   boardState: Piece[]
 ): boolean => {
+  // Checking for queen moves
   for (let i = 1; i < 14; i++) {
     let multiplierX =
       desiredPosition.x < initialPosition.x
@@ -32,6 +33,7 @@ export const queenMove = (
       initialPosition.y + i * multiplierY
     )
 
+    // Checking if the tile is occupied/empty
     if (passedPosition.samePosition(desiredPosition)) {
       if (tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
         return true

@@ -1,10 +1,11 @@
-import { useRef, useState } from 'react'
-import PlayerName from '../PlayerName/PlayerName'
-import Tile from '../Tile/Tile'
 import './Chessboard.css'
-import { VERTICAL_AXIS, HORIZONTAL_AXIS, GRID_SIZE } from '../../Constants'
+import PlayerName from '../PlayerName/PlayerName'
 import { Piece, Position } from '../../models'
+import Tile from '../Tile/Tile'
+import { useRef, useState } from 'react'
+import { VERTICAL_AXIS, HORIZONTAL_AXIS, GRID_SIZE } from '../../Constants'
 
+// Interface deciding the types
 interface Props {
   playMove: (piece: Piece, position: Position) => boolean
   pieces: Piece[]
@@ -31,6 +32,7 @@ export default function Chessboard({ playMove, pieces }: Props) {
           Math.ceil((e.clientY - chessboard.offsetTop - 700) / GRID_SIZE)
         )
       )
+
       setGrabPosition(new Position(grabX, grabY))
 
       const x = e.clientX - GRID_SIZE / 2
@@ -49,6 +51,7 @@ export default function Chessboard({ playMove, pieces }: Props) {
     const chessboard = chessboardRef.current
 
     if (activePiece && chessboard) {
+      // Declaring constants for restricting the pieces
       const leftX = chessboard.offsetLeft - 4
       const midleftX =
         chessboard.offsetLeft + (chessboard.clientWidth / 14) * 3 - 4
@@ -89,6 +92,7 @@ export default function Chessboard({ playMove, pieces }: Props) {
         activePiece.style.top = `${y}px`
       }
 
+      // Restricting the cutout portions
       if ((x < midleftX && y > midbottomY) || (x < midleftX && y < midtopY)) {
         activePiece.style.left = `${midleftX}px`
       } else if (
@@ -102,9 +106,9 @@ export default function Chessboard({ playMove, pieces }: Props) {
 
   // Function when player drops a piece
   function dropPiece(e: React.MouseEvent) {
-    // Dropping the pieces on the right grid
     const chessboard = chessboardRef.current
 
+    // Dropping the pieces on the right grid
     if (activePiece && chessboard) {
       const x = Math.floor((e.clientX - chessboard.offsetLeft) / GRID_SIZE)
       const y = Math.abs(
@@ -117,12 +121,13 @@ export default function Chessboard({ playMove, pieces }: Props) {
         var success = playMove(currentPiece.clone(), new Position(x, y))
 
         if (!success) {
-          //RESETS THE PIECE POSITION
+          // Resets the piece position
           activePiece.style.position = 'relative'
           activePiece.style.removeProperty('top')
           activePiece.style.removeProperty('left')
         }
       }
+
       setActivePiece(null)
     }
   }
@@ -141,6 +146,8 @@ export default function Chessboard({ playMove, pieces }: Props) {
         activePiece != null
           ? pieces.find((p) => p.samePosition(grabPosition))
           : undefined
+
+      // For highlighting the attacked pieces
       let highlight = currentPiece?.possibleMoves
         ? currentPiece.possibleMoves.some((p) =>
             p.samePosition(new Position(i, j))

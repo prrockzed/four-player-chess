@@ -10,15 +10,18 @@ import {
   getPossibleRookMoves,
 } from '../rules'
 
+// Exporting the board class
 export class Board {
   pieces: Piece[]
   totalTurns: number
 
+  // Defining the constructor
   constructor(pieces: Piece[], totalTurns: number) {
     this.pieces = pieces
     this.totalTurns = totalTurns
   }
 
+  // Getting the current playing team
   get currentTeam(): TeamType {
     if (this.totalTurns % 4 === 1) {
       return TeamType.RED
@@ -40,7 +43,7 @@ export class Board {
     // Checking if the moves of king are valid
     this.checkCurrentTeamMoves()
 
-    // Remove the possible moves of the team
+    // Removing the possible moves of the team
     //that does not have its chance at the moment
     for (const piece of this.pieces.filter(
       (p) => p.team !== this.currentTeam
@@ -114,6 +117,7 @@ export class Board {
     }
   }
 
+  // Getting the valid moves of the pieces which is being played
   getValidMoves(piece: Piece, boardState: Piece[]): Position[] {
     switch (piece.type) {
       case PieceType.PAWN:
@@ -163,6 +167,7 @@ export class Board {
     return true
   }
 
+  // Clone function of the board
   clone(): Board {
     return new Board(
       this.pieces.map((p) => p.clone()),

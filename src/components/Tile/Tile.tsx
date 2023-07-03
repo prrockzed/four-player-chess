@@ -1,5 +1,6 @@
 import './Tile.css'
 
+// Interface for deciding the types
 interface Props {
   image?: string
   num_i: number

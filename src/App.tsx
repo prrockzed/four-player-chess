@@ -1,10 +1,11 @@
 import './App.css'
-import Referee from './components/Referee/Referee'
+import Arbiter from './components/Arbiter/Arbiter'
 
+// The app component
 function App() {
   return (
     <div id='app'>
-      <Referee />
+      <Arbiter />
     </div>
   )
 }

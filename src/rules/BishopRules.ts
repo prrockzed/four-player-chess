@@ -1,10 +1,10 @@
+import { Piece, Position } from '../models'
 import { TeamType } from '../Types'
 import {
   tileIsOccupied,
   tileIsOccupiedByOpponent,
   tileIsEmptyOrOccupiedByOpponent,
 } from './GeneralRules'
-import { Piece, Position } from '../models'
 
 // Rules to move the Bishops
 export const bishopMove = (
@@ -47,9 +47,7 @@ export const bishopMove = (
         initialPosition.x - i,
         initialPosition.y + i
       )
-      //Check if the tile is the destination tile
       if (passedPosition.samePosition(desiredPosition)) {
-        //Dealing with destination tile
         if (tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
           return true
         }
@@ -69,9 +67,7 @@ export const bishopMove = (
         initialPosition.x + i,
         initialPosition.y - i
       )
-      //Check if the tile is the destination tile
       if (passedPosition.samePosition(desiredPosition)) {
-        //Dealing with destination tile
         if (tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
           return true
         }
@@ -91,9 +87,7 @@ export const bishopMove = (
         initialPosition.x - i,
         initialPosition.y - i
       )
-      //Check if the tile is the destination tile
       if (passedPosition.samePosition(desiredPosition)) {
-        //Dealing with destination tile
         if (tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
           return true
         }

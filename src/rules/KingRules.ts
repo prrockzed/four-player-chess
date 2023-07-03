@@ -1,10 +1,10 @@
+import { Piece, Position } from '../models'
 import { TeamType } from '../Types'
 import {
   tileIsOccupied,
   tileIsOccupiedByOpponent,
   tileIsEmptyOrOccupiedByOpponent,
 } from './GeneralRules'
-import { Piece, Position } from '../models'
 
 // Rules to move the Kings
 export const kingMove = (
@@ -13,6 +13,7 @@ export const kingMove = (
   team: TeamType,
   boardState: Piece[]
 ): boolean => {
+  // Checking for king moves
   for (let i = 1; i < 2; i++) {
     let multiplierX =
       desiredPosition.x < initialPosition.x
@@ -32,6 +33,7 @@ export const kingMove = (
       initialPosition.y + i * multiplierY
     )
 
+    // Checking if the tile is occupied/empty
     if (passedPosition.samePosition(desiredPosition)) {
       if (tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
         return true

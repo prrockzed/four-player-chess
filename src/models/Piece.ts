@@ -1,6 +1,7 @@
 import { PieceType, TeamType } from '../Types'
 import { Position } from './Position'
 
+// Exporting the piece class
 export class Piece {
   image: string
   position: Position
@@ -33,14 +34,17 @@ export class Piece {
     return this.type === PieceType.KING
   }
 
+  // function for same piece position
   samePiecePosition(otherPiece: Piece): boolean {
     return this.position.samePosition(otherPiece.position)
   }
 
+  // function for comparing same position
   samePosition(otherPosition: Position): boolean {
     return this.position.samePosition(otherPosition)
   }
 
+  // cloning piece
   clone(): Piece {
     return new Piece(
       this.position.clone(),

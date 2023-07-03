@@ -1,7 +1,5 @@
-import { Piece } from './models/Piece'
-import { Position } from './models/Position'
+import { Board, Piece, Position } from './models'
 import { PieceType, TeamType } from './Types'
-import { Board } from './models/Board'
 
 // Axes
 export const VERTICAL_AXIS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
