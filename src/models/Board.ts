@@ -1,6 +1,6 @@
 import { Piece } from './Piece'
 import { Position } from './Position'
-import { PieceType } from '../Types'
+import { PieceType, TeamType } from '../Types'
 import {
   getPossibleBishopMoves,
   getPossibleKingMoves,
@@ -18,8 +18,83 @@ export class Board {
   }
 
   calculateAllMoves() {
+    // For each piece, calculate the possible moves
     for (const piece of this.pieces) {
       piece.possibleMoves = this.getValidMoves(piece, this.pieces)
+    }
+
+    this.checkKingMoves()
+  }
+
+  checkKingMoves() {
+    const blue_king = this.pieces.find(
+      (p) => p.isKing && p.team === TeamType.BLUE
+    )
+
+    if (blue_king?.possibleMoves === undefined) return
+
+    // Simulate king moves
+    for (const move of blue_king.possibleMoves) {
+      const simulatedBoard = this.clone()
+
+      const pieceAtDestination = simulatedBoard.pieces.find((p) =>
+        p.samePosition(move)
+      )
+
+      // If there is a piece at the destination remove it
+      if (pieceAtDestination !== undefined) {
+        simulatedBoard.pieces = simulatedBoard.pieces.filter(
+          (p) => !p.samePosition(move)
+        )
+      }
+
+      // We tell the compiler that the simulated king is always present
+      const simulatedKing = simulatedBoard.pieces.find(
+        (p) => p.isKing && p.team === TeamType.BLUE
+      )
+      simulatedKing!.position = move
+
+      for (const enemy of simulatedBoard.pieces.filter(
+        (p) => p.team === TeamType.RED
+      )) {
+        enemy.possibleMoves = simulatedBoard.getValidMoves(
+          enemy,
+          simulatedBoard.pieces
+        )
+      }
+
+      let safe = true
+
+      // Determine if the move is safe
+      for (const p of simulatedBoard.pieces) {
+        if (p.team === TeamType.BLUE) continue
+
+        if (p.isPawn) {
+          const possiblePawnMoves = simulatedBoard.getValidMoves(
+            p,
+            simulatedBoard.pieces
+          )
+
+          if (
+            possiblePawnMoves?.some(
+              (ppm) => ppm.x !== p.position.x && ppm.samePosition(move)
+            )
+          ) {
+            safe = false
+            break
+          }
+        } else if (p.possibleMoves?.some((p) => p.samePosition(move))) {
+          safe = false
+          break
+        }
+      }
+
+      // Remove the move from possibleMoves
+      if (!safe) {
+        blue_king.possibleMoves = blue_king.possibleMoves?.filter(
+          (m) => !m.samePosition(move)
+        )
+      }
     }
   }
 

@@ -27,14 +27,15 @@ export default function Referee() {
   }
 
   function playMove(playedPiece: Piece, destination: Position): boolean {
+    if (playedPiece.possibleMoves === undefined) return false
+
     let playedMoveIsValid = false
 
-    const validMove = isValidMove(
-      playedPiece.position,
-      destination,
-      playedPiece.type,
-      playedPiece.team
+    const validMove = playedPiece.possibleMoves?.some((m) =>
+      m.samePosition(destination)
     )
+
+    if (!validMove) return false
 
     // playMove modifies the board state
     setBoard((previousBoard) => {
