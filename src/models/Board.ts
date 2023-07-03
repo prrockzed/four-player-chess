@@ -55,7 +55,10 @@ export class Board {
       simulatedKing!.position = move
 
       for (const enemy of simulatedBoard.pieces.filter(
-        (p) => p.team === TeamType.RED
+        (p) =>
+          p.team === TeamType.RED ||
+          p.team === TeamType.YELLOW ||
+          p.team === TeamType.GREEN
       )) {
         enemy.possibleMoves = simulatedBoard.getValidMoves(
           enemy,
