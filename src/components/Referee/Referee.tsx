@@ -56,15 +56,15 @@ export default function Referee() {
     setBoard((previousBoard) => {
       const clonedBoard = board.clone()
 
+      // Incrementing the totalTurns when the correct piece is played
+      clonedBoard.totalTurns += 1
+
       // Playing a move
       playedMoveIsValid = clonedBoard.playMove(
         validMove,
         playedPiece,
         destination
       )
-
-      // Incrementing the totalTurns when the correct piece is played
-      clonedBoard.totalTurns += 1
 
       return clonedBoard
     })

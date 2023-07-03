@@ -19,6 +19,18 @@ export class Board {
     this.totalTurns = totalTurns
   }
 
+  get currentTeam(): TeamType {
+    if (this.totalTurns % 4 === 1) {
+      return TeamType.RED
+    } else if (this.totalTurns % 4 === 2) {
+      return TeamType.BLUE
+    } else if (this.totalTurns % 4 === 3) {
+      return TeamType.YELLOW
+    } else {
+      return TeamType.GREEN
+    }
+  }
+
   calculateAllMoves() {
     // For each piece, calculate the possible moves
     for (const piece of this.pieces) {
@@ -29,14 +41,15 @@ export class Board {
   }
 
   checkKingMoves() {
-    const blue_king = this.pieces.find(
-      (p) => p.isKing && p.team === TeamType.BLUE
+    // King of current team
+    const king = this.pieces.find(
+      (p) => p.isKing && p.team === this.currentTeam
     )
 
-    if (blue_king?.possibleMoves === undefined) return
+    if (king?.possibleMoves === undefined) return
 
     // Simulate king moves
-    for (const move of blue_king.possibleMoves) {
+    for (const move of king.possibleMoves) {
       const simulatedBoard = this.clone()
 
       const pieceAtDestination = simulatedBoard.pieces.find((p) =>
@@ -52,15 +65,12 @@ export class Board {
 
       // We tell the compiler that the simulated king is always present
       const simulatedKing = simulatedBoard.pieces.find(
-        (p) => p.isKing && p.team === TeamType.BLUE
+        (p) => p.isKing && p.team === simulatedBoard.currentTeam
       )
       simulatedKing!.position = move
 
       for (const enemy of simulatedBoard.pieces.filter(
-        (p) =>
-          p.team === TeamType.RED ||
-          p.team === TeamType.YELLOW ||
-          p.team === TeamType.GREEN
+        (p) => p.team !== simulatedBoard.currentTeam
       )) {
         enemy.possibleMoves = simulatedBoard.getValidMoves(
           enemy,
@@ -72,7 +82,7 @@ export class Board {
 
       // Determine if the move is safe
       for (const p of simulatedBoard.pieces) {
-        if (p.team === TeamType.BLUE) continue
+        if (p.team === simulatedBoard.currentTeam) continue
 
         if (p.isPawn) {
           const possiblePawnMoves = simulatedBoard.getValidMoves(
@@ -96,7 +106,7 @@ export class Board {
 
       // Remove the move from possibleMoves
       if (!safe) {
-        blue_king.possibleMoves = blue_king.possibleMoves?.filter(
+        king.possibleMoves = king.possibleMoves?.filter(
           (m) => !m.samePosition(move)
         )
       }
