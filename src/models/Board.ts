@@ -8,6 +8,7 @@ import {
   getPossiblePawnMoves,
   getPossibleQueenMoves,
   getPossibleRookMoves,
+  getCastlingMoves,
 } from '../rules'
 
 // Exporting the board class
@@ -38,6 +39,16 @@ export class Board {
     // For each piece, calculate the possible moves
     for (const piece of this.pieces) {
       piece.possibleMoves = this.getValidMoves(piece, this.pieces)
+    }
+
+    // Calculate castling moves
+    for (const king of this.pieces.filter((p) => p.isKing)) {
+      if (king.possibleMoves === undefined) continue
+
+      king.possibleMoves = [
+        ...king.possibleMoves,
+        ...getCastlingMoves(king, this.pieces),
+      ]
     }
 
     // Checking if the moves of king are valid
@@ -150,6 +161,7 @@ export class Board {
         if (piece.samePiecePosition(playedPiece)) {
           piece.position.x = destination.x
           piece.position.y = destination.y
+          piece.hasMoved = true
 
           results.push(piece)
         } else if (!piece.samePosition(destination)) {

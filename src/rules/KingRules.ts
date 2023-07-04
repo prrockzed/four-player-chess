@@ -169,3 +169,65 @@ export const getPossibleKingMoves = (
 
   return possibleMoves
 }
+
+// Getting the castling moves for the king
+// In this method, enemy moves have already been calculated
+export const getCastlingMoves = (
+  king: Piece,
+  boardState: Piece[]
+): Position[] => {
+  const possibleMoves: Position[] = []
+
+  if (king.hasMoved) return possibleMoves
+
+  // Get unmoved rooks from the king's team
+  const rooks = boardState.filter(
+    (p) => p.isRook && p.team === king.team && !p.hasMoved
+  )
+
+  // For red and yellow rooks
+  // Loop through the rooks
+  for (const rook of rooks) {
+    // Determine if we have to go to right or left
+    const direction = rook.position.x - king.position.x > 0 ? 1 : -1
+
+    const adjacentPosition = king.position.clone()
+    adjacentPosition.x += direction
+
+    if (!rook.possibleMoves?.some((m) => m.samePosition(adjacentPosition)))
+      continue
+
+    const concerningTiles = rook.possibleMoves.filter(
+      (m) => m.y === king.position.y
+    )
+
+    // Filter out the enemy
+    const enemyPieces = boardState.filter((p) => p.team !== king.team)
+
+    let valid = true
+
+    // Looping through all enemy pieces
+    for (const enemy of enemyPieces) {
+      if (enemy.possibleMoves === undefined) continue
+
+      // Checking if the concerned tiles for castling has the same position
+      // as the possible moves of the enemy
+      for (const move of enemy.possibleMoves) {
+        if (concerningTiles.some((t) => t.samePosition(move))) {
+          valid = false
+        }
+
+        if (!valid) break
+      }
+
+      if (!valid) break
+    }
+
+    if (!valid) continue
+
+    // We now want to add it as a possible move
+    possibleMoves.push(rook.position.clone())
+  }
+
+  return possibleMoves
+}

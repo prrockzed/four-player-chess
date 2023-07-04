@@ -59,7 +59,7 @@ export default function Arbiter() {
     if (!validMove) return false
 
     // playMove modifies the board state
-    setBoard((previousBoard) => {
+    setBoard(() => {
       const clonedBoard = board.clone()
 
       // Incrementing the totalTurns when the correct piece is played
@@ -71,6 +71,8 @@ export default function Arbiter() {
         playedPiece,
         destination
       )
+
+      console.log(clonedBoard.pieces.filter((p) => p.hasMoved).length)
 
       return clonedBoard
     })
@@ -167,7 +169,9 @@ export default function Arbiter() {
 
       clonedBoard.pieces = clonedBoard.pieces.reduce((results, piece) => {
         if (piece.samePiecePosition(promotionPawn)) {
-          results.push(new Piece(piece.position.clone(), pieceType, piece.team))
+          results.push(
+            new Piece(piece.position.clone(), pieceType, piece.team, true)
+          )
         } else {
           results.push(piece)
         }

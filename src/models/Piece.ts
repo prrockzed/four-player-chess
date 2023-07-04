@@ -8,11 +8,13 @@ export class Piece {
   type: PieceType
   team: TeamType
   possibleMoves?: Position[]
+  hasMoved: boolean
 
   constructor(
     position: Position,
     type: PieceType,
     team: TeamType,
+    hasMoved: boolean,
     possibleMoves: Position[] = []
   ) {
     this.image = `assets/images/${team}${type}.png`
@@ -20,6 +22,7 @@ export class Piece {
     this.type = type
     this.team = team
     this.possibleMoves = possibleMoves
+    this.hasMoved = hasMoved
   }
 
   get isPawn(): boolean {
@@ -50,6 +53,7 @@ export class Piece {
       this.position.clone(),
       this.type,
       this.team,
+      this.hasMoved,
       this.possibleMoves?.map((m) => m.clone())
     )
   }
