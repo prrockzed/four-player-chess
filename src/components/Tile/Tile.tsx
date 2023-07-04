@@ -23,9 +23,9 @@ export default function Tile({ num_i, num_j, image, highlight }: Props) {
   // Useless tiles are those tiles which are at the corners of the 'squared' chess board
   if (
     (num_i < 3 && num_j < 3) ||
-    (num_i >= 11 && num_j < 3) ||
-    (num_i >= 11 && num_j >= 11) ||
-    (num_i < 3 && num_j >= 11)
+    (num_i > 10 && num_j < 3) ||
+    (num_i > 10 && num_j > 10) ||
+    (num_i < 3 && num_j > 10)
   ) {
     return <div className='tile useless'></div>
   }

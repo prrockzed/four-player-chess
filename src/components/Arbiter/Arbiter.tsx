@@ -1,4 +1,3 @@
-import './Arbiter.css'
 import { Board } from '../../models/Board'
 import Chessboard from '../Chessboard/Chessboard'
 import { initialBoard } from '../../Constants'
@@ -16,14 +15,10 @@ import {
 
 export default function Arbiter() {
   // Declaring the constants
-  const [board, setBoard] = useState<Board>(initialBoard)
+  const [board, setBoard] = useState<Board>(initialBoard.clone())
   const [promotionPawn, setPromotionPawn] = useState<Piece>()
   const modalRef = useRef<HTMLDivElement>(null)
-
-  // Calculating all moves and updating it
-  useEffect(() => {
-    board.calculateAllMoves()
-  }, [])
+  const checkmateModalRef = useRef<HTMLDivElement>(null)
 
   // Function for playing a move
   function playMove(playedPiece: Piece, destination: Position): boolean {
@@ -72,7 +67,9 @@ export default function Arbiter() {
         destination
       )
 
-      console.log(clonedBoard.pieces.filter((p) => p.hasMoved).length)
+      if (clonedBoard.losingTeam !== undefined) {
+        checkmateModalRef.current?.classList.remove('hidden')
+      }
 
       return clonedBoard
     })
@@ -201,9 +198,27 @@ export default function Arbiter() {
     }
   }
 
+  // Writing the full name of the winning team
+  let teamWon = ''
+  if (board.losingTeam === TeamType.RED) {
+    teamWon = 'Blue, Yellow and Green'
+  } else if (board.losingTeam === TeamType.BLUE) {
+    teamWon = 'Red, Yellow and Green'
+  } else if (board.losingTeam === TeamType.YELLOW) {
+    teamWon = 'Red, Blue and Green'
+  } else if (board.losingTeam === TeamType.GREEN) {
+    teamWon = 'Red, Blue and Green'
+  }
+
+  function restartGame() {
+    checkmateModalRef.current?.classList.add('hidden')
+
+    setBoard(initialBoard.clone())
+  }
+
   return (
     <>
-      <div id='pawn-promotion-modal' className='hidden' ref={modalRef}>
+      <div className='modal hidden' ref={modalRef}>
         <div className='modal-body'>
           <img
             onClick={() => promotePawn(PieceType.ROOK)}
@@ -227,6 +242,16 @@ export default function Arbiter() {
           />
         </div>
       </div>
+
+      <div className='modal hidden' ref={checkmateModalRef}>
+        <div className='modal-body'>
+          <div className='checkmate-body'>
+            <span>Winning teams: {teamWon}!</span>
+            <button onClick={restartGame}>Play Again</button>
+          </div>
+        </div>
+      </div>
+
       <Chessboard
         playMove={playMove}
         pieces={board.pieces}

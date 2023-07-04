@@ -15,6 +15,7 @@ import {
 export class Board {
   pieces: Piece[]
   totalTurns: number
+  losingTeam?: TeamType
 
   // Defining the constructor
   constructor(pieces: Piece[], totalTurns: number) {
@@ -61,6 +62,18 @@ export class Board {
     )) {
       piece.possibleMoves = []
     }
+
+    //Checking if the playing team still has moves left, else checkmate
+    if (
+      this.pieces
+        .filter((p) => p.team === this.currentTeam)
+        .some(
+          (p) => p.possibleMoves !== undefined && p.possibleMoves.length > 0
+        )
+    )
+      return
+
+    this.losingTeam = this.currentTeam
   }
 
   checkCurrentTeamMoves() {
@@ -163,6 +176,7 @@ export class Board {
       destinationPiece?.isRook &&
       destinationPiece.team === playedPiece.team
     ) {
+      // Deciding the direction of castling for different players
       const direction =
         destinationPiece.team === TeamType.RED ||
         playedPiece.team === TeamType.YELLOW
@@ -173,6 +187,7 @@ export class Board {
           ? 1
           : -1
 
+      // Implementing the direction of castling
       if (
         playedPiece.team === TeamType.RED ||
         playedPiece.team === TeamType.YELLOW
