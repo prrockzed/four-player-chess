@@ -201,21 +201,8 @@ export default function Arbiter() {
     }
   }
 
-  // Writing the name of the player who play the next move
-  let playerTurn = ''
-  if (board.totalTurns % 4 === 1) {
-    playerTurn = 'RED'
-  } else if (board.totalTurns % 4 === 2) {
-    playerTurn = 'BLUE'
-  } else if (board.totalTurns % 4 === 3) {
-    playerTurn = 'YELLOW'
-  } else if (board.totalTurns % 4 === 0) {
-    playerTurn = 'GREEN'
-  }
-
   return (
     <>
-      <div className='playerTurn'>{playerTurn}'s turn</div>
       <div id='pawn-promotion-modal' className='hidden' ref={modalRef}>
         <div className='modal-body'>
           <img
@@ -240,7 +227,11 @@ export default function Arbiter() {
           />
         </div>
       </div>
-      <Chessboard playMove={playMove} pieces={board.pieces} />
+      <Chessboard
+        playMove={playMove}
+        pieces={board.pieces}
+        whoseTurn={board.totalTurns}
+      />
     </>
   )
 }
