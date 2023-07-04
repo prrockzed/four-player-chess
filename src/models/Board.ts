@@ -153,6 +153,58 @@ export class Board {
     playedPiece: Piece,
     destination: Position
   ): boolean {
+    const destinationPiece = this.pieces.find((p) =>
+      p.samePosition(destination)
+    )
+
+    // If castling is played
+    if (
+      playedPiece.isKing &&
+      destinationPiece?.isRook &&
+      destinationPiece.team === playedPiece.team
+    ) {
+      const direction =
+        destinationPiece.team === TeamType.RED ||
+        playedPiece.team === TeamType.YELLOW
+          ? destinationPiece.position.x - playedPiece.position.x > 0
+            ? 1
+            : -1
+          : destinationPiece.position.y - playedPiece.position.y > 0
+          ? 1
+          : -1
+
+      if (
+        playedPiece.team === TeamType.RED ||
+        playedPiece.team === TeamType.YELLOW
+      ) {
+        const newKingXPosition = playedPiece.position.x + direction * 2
+        this.pieces = this.pieces.map((p) => {
+          if (p.samePiecePosition(playedPiece)) {
+            p.position.x = newKingXPosition
+          } else if (p.samePiecePosition(destinationPiece)) {
+            p.position.x = newKingXPosition - direction
+          }
+
+          return p
+        })
+      } else {
+        const newKingYPosition = playedPiece.position.y + direction * 2
+        this.pieces = this.pieces.map((p) => {
+          if (p.samePiecePosition(playedPiece)) {
+            p.position.y = newKingYPosition
+          } else if (p.samePiecePosition(destinationPiece)) {
+            p.position.y = newKingYPosition - direction
+          }
+
+          return p
+        })
+      }
+
+      this.calculateAllMoves()
+      return true
+    }
+
+    // If it is a valid move
     if (validMove) {
       // Updated the pieces position
       // And if a piece is attacked, removes it

@@ -189,17 +189,29 @@ export const getCastlingMoves = (
   // Loop through the rooks
   for (const rook of rooks) {
     // Determine if we have to go to right or left
-    const direction = rook.position.x - king.position.x > 0 ? 1 : -1
+    const direction =
+      rook.team === TeamType.RED || rook.team === TeamType.YELLOW
+        ? rook.position.x - king.position.x > 0
+          ? 1
+          : -1
+        : rook.position.y - king.position.y > 0
+        ? 1
+        : -1
 
     const adjacentPosition = king.position.clone()
-    adjacentPosition.x += direction
+    if (king.team === TeamType.RED || king.team === TeamType.YELLOW) {
+      adjacentPosition.x += direction
+    } else {
+      adjacentPosition.y += direction
+    }
 
     if (!rook.possibleMoves?.some((m) => m.samePosition(adjacentPosition)))
       continue
 
-    const concerningTiles = rook.possibleMoves.filter(
-      (m) => m.y === king.position.y
-    )
+    const concerningTiles =
+      king.team === TeamType.RED || king.team === TeamType.YELLOW
+        ? rook.possibleMoves.filter((m) => m.y === king.position.y)
+        : rook.possibleMoves.filter((m) => m.x === king.position.x)
 
     // Filter out the enemy
     const enemyPieces = boardState.filter((p) => p.team !== king.team)

@@ -215,7 +215,7 @@ export default function Arbiter() {
 
   return (
     <>
-      <div className='playerTurn'>Now it's Player {playerTurn} turn</div>
+      <div className='playerTurn'>{playerTurn}'s turn</div>
       <div id='pawn-promotion-modal' className='hidden' ref={modalRef}>
         <div className='modal-body'>
           <img
