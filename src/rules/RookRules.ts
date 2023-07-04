@@ -67,6 +67,10 @@ export const getPossibleRookMoves = (
 
   // Top movement
   for (let i = 1; i < 14; i++) {
+    // Stop checking if move is outside of the board
+    if (rook.position.x < 3 && rook.position.y + i > 10) break
+    if (rook.position.x > 10 && rook.position.y + i > 10) break
+
     const destination = new Position(rook.position.x, rook.position.y + i)
 
     if (!tileIsOccupied(destination, boardState)) {
@@ -81,6 +85,10 @@ export const getPossibleRookMoves = (
 
   // Bottom movement
   for (let i = 1; i < 14; i++) {
+    // Stop checking if move is outside of the board
+    if (rook.position.x < 3 && rook.position.y - i < 3) break
+    if (rook.position.x > 10 && rook.position.y - i < 3) break
+
     const destination = new Position(rook.position.x, rook.position.y - i)
 
     if (!tileIsOccupied(destination, boardState)) {
@@ -95,6 +103,10 @@ export const getPossibleRookMoves = (
 
   // Left movement
   for (let i = 1; i < 14; i++) {
+    // Stop checking if move is outside of the board
+    if (rook.position.y < 3 && rook.position.x - i < 3) break
+    if (rook.position.y > 10 && rook.position.x - i < 3) break
+
     const destination = new Position(rook.position.x - i, rook.position.y)
 
     if (!tileIsOccupied(destination, boardState)) {
@@ -109,6 +121,10 @@ export const getPossibleRookMoves = (
 
   // Right movement
   for (let i = 1; i < 14; i++) {
+    // Stop checking if move is outside of the board
+    if (rook.position.y < 3 && rook.position.x + i > 10) break
+    if (rook.position.y > 10 && rook.position.x + i > 10) break
+
     const destination = new Position(rook.position.x + i, rook.position.y)
 
     if (!tileIsOccupied(destination, boardState)) {
