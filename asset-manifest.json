@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/static/css/main.e779cbb2.css",
-    "main.js": "/static/js/main.11d2d191.js",
-    "index.html": "/index.html",
-    "main.e779cbb2.css.map": "/static/css/main.e779cbb2.css.map",
-    "main.11d2d191.js.map": "/static/js/main.11d2d191.js.map"
+    "main.css": "/four-player-chess/static/css/main.e779cbb2.css",
+    "main.js": "/four-player-chess/static/js/main.1d8bd154.js",
+    "index.html": "/four-player-chess/index.html",
+    "main.e779cbb2.css.map": "/four-player-chess/static/css/main.e779cbb2.css.map",
+    "main.1d8bd154.js.map": "/four-player-chess/static/js/main.1d8bd154.js.map"
   },
   "entrypoints": [
     "static/css/main.e779cbb2.css",
-    "static/js/main.11d2d191.js"
+    "static/js/main.1d8bd154.js"
   ]
 }
