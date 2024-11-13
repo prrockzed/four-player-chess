@@ -19,6 +19,9 @@ export default function Arbiter() {
   const [promotionPawn, setPromotionPawn] = useState<Piece>()
   const modalRef = useRef<HTMLDivElement>(null)
   const checkmateModalRef = useRef<HTMLDivElement>(null)
+  
+  // Checks for production/development
+  const basePath = window.location.hostname === "localhost" ? "/four-player-chess" : "";
 
   // Function for playing a move
   function playMove(playedPiece: Piece, destination: Position): boolean {
@@ -222,22 +225,22 @@ export default function Arbiter() {
         <div className='modal-body'>
           <img
             onClick={() => promotePawn(PieceType.ROOK)}
-            src={`/assets/images/${promotionTeamType()}R.png`}
+            src={`${basePath}/assets/images/${promotionTeamType()}R.png`}
             alt='Rook'
           />
           <img
             onClick={() => promotePawn(PieceType.KNIGHT)}
-            src={`/assets/images/${promotionTeamType()}N.png`}
+            src={`${basePath}/assets/images/${promotionTeamType()}N.png`}
             alt='Knight'
           />
           <img
             onClick={() => promotePawn(PieceType.BISHOP)}
-            src={`/assets/images/${promotionTeamType()}B.png`}
+            src={`${basePath}/assets/images/${promotionTeamType()}B.png`}
             alt='Bishop'
           />
           <img
             onClick={() => promotePawn(PieceType.QUEEN)}
-            src={`/assets/images/${promotionTeamType()}Q.png`}
+            src={`${basePath}/assets/images/${promotionTeamType()}Q.png`}
             alt='Queen'
           />
         </div>

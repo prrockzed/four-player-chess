@@ -17,7 +17,9 @@ export class Piece {
     hasMoved: boolean,
     possibleMoves: Position[] = []
   ) {
-    this.image = `assets/images/${team}${type}.png`
+    const basePath = window.location.hostname === "localhost" ? "four-player-chess/" : "";
+
+    this.image = `${basePath}assets/images/${team}${type}.png`
     this.position = position
     this.type = type
     this.team = team
